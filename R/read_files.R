@@ -20,8 +20,8 @@ read_lims <- function(path) {
   # Remove empty rows
   x <- lapply(x, janitor::remove_empty, "rows")
 
-  # Save various LIMS IDs
-  lims_ref <- names(x$batch)[!grepl("\\...", names(x$batch))][2]
+  # Save alphanumeric name as lims_ref
+  lims_ref <- names(x$batch)[grep("(\\w\\d+\\w)", names(x$batch))]
 
   dry_lims_id <- names(x$dry)[2]
   whole_lims_id <- names(x$whole)[2]
@@ -72,6 +72,8 @@ read_lims <- function(path) {
   x$batch$sample <- stringr::str_trim(gsub("-", "", x$batch$sample))
   x$batch$sample <- stringr::str_trim(gsub("A$", "", x$batch$sample))
   x$batch$sample <- stringr::str_trim(gsub("2021|2022|2023", "", x$batch$sample))
+  # Add LIMS ref column so we can easily reference the original file if needed
+  x$batch$lims_ref <- lims_ref
 
   # Data tabs
   names(x$dry)[2] <- "lims_sample"
@@ -112,6 +114,7 @@ read_lims <- function(path) {
   ng_dat$sample <- stringr::str_trim(gsub("TOFINO|BOUNDARY BAY|IONA|IONA NORTH|IONA SOUTH|ROBERTS BANK|ROBERT'S BANK|JENSENS BAY|JENSEN'S BAY|BRUNSWICK POINT|COWICHAN", "", ng_dat$sample))
   ng_dat[["site"]][grep("JB", ng_dat$sample)] <- "JENSEN'S BAY"
   ng_dat[["site"]][grep("MS", ng_dat$sample)] <- "MALTBY SLOUGH"
+  ng_dat[["site"]][grep("BN", ng_dat$sample)] <- "BOUNDARY BAY"
   ng_dat$sample <- stringr::str_trim(gsub("JB", "", ng_dat$sample))
   ng_dat$sample <- stringr::str_trim(gsub("MS", "", ng_dat$sample))
   ng_dat$sample <- stringr::str_trim(gsub("BN", "", ng_dat$sample))
@@ -122,8 +125,11 @@ read_lims <- function(path) {
 
   # Merge PESC sample ID into the samples tab
   # This won't be perfect but it should match most of them
-  # TODO: add error check here to find duplicate/mismatched IDs.
-  #x$batch <- unique(merge(x$batch, ng_dat[,c("pesc_id", "bag", "sample")], by = c("sample", "bag"), all.x = TRUE))
+  x$batch <- unique(merge(x$batch, ng_dat[,c("pesc_id", "bag", "sample")], by = c("sample", "bag"), all.x = TRUE))
+  # Throw warning if any PESC IDs are duplicated
+  if (any(plyr::count(x$batch[["pesc_id"]][!is.na(x$batch$pesc_id)])[["freq"]] > 1)) {
+    warning("Duplicated PESC IDs: ", paste(plyr::count(x$batch$pesc_id)[plyr::count(x$batch$pesc_id)[2] > 1,"x"], collapse = ", "))
+  }
 
   # Clean benchtop tab
   names(x$benchtop) <- c("bag", "pesc_id", "tube_g", "tube_sample_wet_g", "wet_g", "wet_extracted_g",

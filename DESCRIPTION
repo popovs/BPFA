@@ -12,6 +12,7 @@ LazyData: true
 Imports: 
     dplyr,
     janitor,
+    plyr,
     readxl,
     stringr,
     tidyr
