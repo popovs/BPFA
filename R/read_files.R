@@ -21,7 +21,7 @@ read_lims <- function(path) {
   x <- lapply(x, janitor::remove_empty, "rows")
 
   # Save alphanumeric name as lims_ref
-  lims_ref <- names(x$batch)[grep("(\\w\\d+\\w)", names(x$batch))]
+  lims_ref <- names(x$batch)[grep("(\\w\\d+\\w+)", names(x$batch))]
 
   dry_lims_id <- names(x$dry)[2]
   whole_lims_id <- names(x$whole)[2]
