@@ -17,16 +17,8 @@ read_lims <- function(path) {
   x <- lapply(x, as.data.frame)
   names(x) <- c("dry", "whole", "benchtop", "batch")
 
-  # If there's any NA rows, grab data up to first empty row
-  # otherwise just return the original df untouched
-  x <- lapply(x, function(j) {
-    if (any(rowSums(is.na(j)) == ncol(j))) {
-      j[1:(as.numeric(rownames(j)[rowSums(is.na(j)) == ncol(j)][1])-1),]
-    } else {
-        j
-      }
-    }
-    )
+  # Remove empty rows
+  x <- lapply(x, janitor::remove_empty, "rows")
 
   # Save various LIMS IDs
   lims_ref <- names(x$batch)[!grepl("\\...", names(x$batch))][2]
@@ -65,31 +57,80 @@ read_lims <- function(path) {
   batch_names <- gsub("collection", "date_collected", batch_names)
   batch_names <- gsub("location", "site", batch_names)
   names(x$batch) <- batch_names
-  # Clean data
+  # Clean batch data
   x$batch$date_collected <- janitor::excel_numeric_to_date(as.numeric(x$batch$date_collected))
   x$batch$date_to_pesc <- janitor::excel_numeric_to_date(as.numeric(x$batch$date_to_pesc))
   x$batch$bag <- as.numeric(x$batch$bag)
+  # Clean batch sample names
+  x$batch$sample <- stringr::str_trim(gsub("#|-A|-1", "", x$batch$sample))
+  x$batch[["site"]][grep("JB", x$batch$sample)] <- "JENSEN'S BAY"
+  x$batch[["site"]][grep("MS", x$batch$sample)] <- "MALTBY SLOUGH"
+  x$batch$sample <- stringr::str_trim(gsub("JB", "", x$batch$sample))
+  x$batch$sample <- stringr::str_trim(gsub("MS", "", x$batch$sample))
+  x$batch$sample <- stringr::str_trim(gsub("BN", "", x$batch$sample))
+  # Final clean
+  x$batch$sample <- stringr::str_trim(gsub("-", "", x$batch$sample))
+  x$batch$sample <- stringr::str_trim(gsub("A$", "", x$batch$sample))
+  x$batch$sample <- stringr::str_trim(gsub("2021|2022|2023", "", x$batch$sample))
 
   # Data tabs
-  names(x$dry)[2] <- "lims_id"
-  names(x$whole)[2] <- "lims_id"
+  names(x$dry)[2] <- "lims_sample"
+  names(x$whole)[2] <- "lims_sample"
 
+  # Remove rows without sample info
+  x$dry <- x$dry[!is.na(x$dry$Sample),]
+  x$whole <- x$whole[!is.na(x$whole$Sample),]
+
+  # Coerce numeric columns to numeric
   x$dry[,-c(1,2)] <- dplyr::mutate_all(x$dry[,-c(1,2)], as.numeric)
   x$whole[,-c(1,2)] <- dplyr::mutate_all(x$whole[,-c(1,2)], as.numeric)
 
-  x$dry <- as.data.frame(tidyr::pivot_longer(x$dry, !c(Sample, lims_id), names_to = "assay", values_to = "ng_per_dry"))
-  x$whole <- as.data.frame(tidyr::pivot_longer(x$whole, !c(Sample, lims_id), names_to = "assay", values_to = "ng_whole"))
+  # Pivot longer
+  x$dry <- as.data.frame(tidyr::pivot_longer(x$dry, !c(Sample, lims_sample), names_to = "assay", values_to = "ng_per_dry"))
+  x$whole <- as.data.frame(tidyr::pivot_longer(x$whole, !c(Sample, lims_sample), names_to = "assay", values_to = "ng_whole"))
 
   x$dry$dry_batch_id <- dry_lims_id
   x$whole$whole_batch_id <- whole_lims_id
 
-  ng_dat <- merge(x$dry, x$whole, by = c("Sample", "lims_id", "assay"), all = TRUE)
+  # Merge dry and whole sheets
+  ng_dat <- merge(x$dry, x$whole, by = c("Sample", "lims_sample", "assay"), all = TRUE)
   names(ng_dat)[1] <- "pesc_id"
 
-  # Benchtop tab
+  # Cleanup the sample name so we can match it to the batch tab
+  # Extract bag
+  ng_dat$bag <- stringr::str_extract(tolower(ng_dat$lims_sample), "bag\\d+|bag \\d+")
+  ng_dat$bag <- as.numeric(gsub("[^0-9.-]", "", ng_dat$bag))
+  # Extract cleaned sample name
+  ng_dat$sample <- stringr::str_trim(gsub("bag\\d+|bag \\d+", "", ng_dat$lims_sample, ignore.case = TRUE))
+  ng_dat$sample <- stringr::str_trim(gsub("#|-A|-1", "", ng_dat$sample))
+  # Extract duplicate/replicates
+  ng_dat$replicate <- ifelse(grepl("dup|dp", ng_dat$sample, ignore.case = TRUE), 2, 1)
+  ng_dat$sample <- stringr::str_trim(gsub("dup|dp", "", ng_dat$sample, ignore.case = TRUE))
+  ng_dat$pesc_id <- stringr::str_trim(gsub("dup|dp", "", ng_dat$pesc_id, ignore.case = TRUE))
+  # Extract site
+  ng_dat$site <- stringr::str_extract(toupper(ng_dat$sample), "TOFINO|BOUNDARY BAY|IONA|ROBERTS BANK|ROBERT'S BANK|JENSENS BAY|JENSEN'S BAY|BRUNSWICK POINT|COWICHAN")
+  ng_dat$sample <- stringr::str_trim(gsub("TOFINO|BOUNDARY BAY|IONA|IONA NORTH|IONA SOUTH|ROBERTS BANK|ROBERT'S BANK|JENSENS BAY|JENSEN'S BAY|BRUNSWICK POINT|COWICHAN", "", ng_dat$sample))
+  ng_dat[["site"]][grep("JB", ng_dat$sample)] <- "JENSEN'S BAY"
+  ng_dat[["site"]][grep("MS", ng_dat$sample)] <- "MALTBY SLOUGH"
+  ng_dat$sample <- stringr::str_trim(gsub("JB", "", ng_dat$sample))
+  ng_dat$sample <- stringr::str_trim(gsub("MS", "", ng_dat$sample))
+  ng_dat$sample <- stringr::str_trim(gsub("BN", "", ng_dat$sample))
+  # Final clean
+  ng_dat$sample <- stringr::str_trim(gsub("-", "", ng_dat$sample))
+  ng_dat$sample <- stringr::str_trim(gsub("A$", "", ng_dat$sample))
+  ng_dat$sample <- stringr::str_trim(gsub("2021|2022|2023", "", ng_dat$sample))
+
+  # Merge PESC sample ID into the samples tab
+  # This won't be perfect but it should match most of them
+  # TODO: add error check here to find duplicate/mismatched IDs.
+  #x$batch <- unique(merge(x$batch, ng_dat[,c("pesc_id", "bag", "sample")], by = c("sample", "bag"), all.x = TRUE))
+
+  # Clean benchtop tab
   names(x$benchtop) <- c("bag", "pesc_id", "tube_g", "tube_sample_wet_g", "wet_g", "wet_extracted_g",
                          "dilution_solution_ml", "tube_sample_dry_g", "dry_g_per_ml", "dried_g",
                          "prct_dry_weight", "start_date", "analyst_initials", "notes")
+  x$benchtop <- x$benchtop[!is.na(x$benchtop$pesc_id),]
+  x$benchtop[,-c(2,12,13,14)] <- dplyr::mutate_all(x$benchtop[,-c(2,12,13,14)], as.numeric)
 
   out <- list(x$batch, ng_dat, x$benchtop)
   names(out) <- c("samples", "ng data", "bench sheet")
