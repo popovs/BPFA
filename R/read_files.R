@@ -72,6 +72,7 @@ read_lims <- function(path) {
   x$batch$sample <- stringr::str_trim(gsub("-", "", x$batch$sample))
   x$batch$sample <- stringr::str_trim(gsub("A$", "", x$batch$sample))
   x$batch$sample <- stringr::str_trim(gsub("2021|2022|2023", "", x$batch$sample))
+  x$batch$sample <- sub("^0+", "", x$batch$sample) # Remove leading zeroes
   # Add LIMS ref column so we can easily reference the original file if needed
   x$batch$lims_ref <- lims_ref
 
@@ -97,6 +98,7 @@ read_lims <- function(path) {
   # Merge dry and whole sheets
   ng_dat <- merge(x$dry, x$whole, by = c("Sample", "lims_sample", "assay"), all = TRUE)
   names(ng_dat)[1] <- "pesc_id"
+  ng_dat$lims_ref <- lims_ref
 
   # Cleanup the sample name so we can match it to the batch tab
   # Extract bag
@@ -122,10 +124,11 @@ read_lims <- function(path) {
   ng_dat$sample <- stringr::str_trim(gsub("-", "", ng_dat$sample))
   ng_dat$sample <- stringr::str_trim(gsub("A$", "", ng_dat$sample))
   ng_dat$sample <- stringr::str_trim(gsub("2021|2022|2023", "", ng_dat$sample))
+  ng_dat$sample <- sub("^0+", "", ng_dat$sample) # Remove leading zeroes
 
   # Merge PESC sample ID into the samples tab
   # This won't be perfect but it should match most of them
-  x$batch <- unique(merge(x$batch, ng_dat[,c("pesc_id", "bag", "sample")], by = c("sample", "bag"), all.x = TRUE))
+  x$batch <- unique(merge(x$batch, ng_dat[,c("pesc_id", "bag", "sample", "lims_ref")], by = c("sample", "bag", "lims_ref"), all.x = TRUE))
   # Throw warning if any PESC IDs are duplicated
   if (any(plyr::count(x$batch[["pesc_id"]][!is.na(x$batch$pesc_id)])[["freq"]] > 1)) {
     warning("Duplicated PESC IDs: ", paste(plyr::count(x$batch$pesc_id)[plyr::count(x$batch$pesc_id)[2] > 1,"x"], collapse = ", "))
