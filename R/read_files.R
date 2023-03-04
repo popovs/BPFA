@@ -62,7 +62,7 @@ read_lims <- function(path) {
   x$batch$date_to_pesc <- janitor::excel_numeric_to_date(as.numeric(x$batch$date_to_pesc))
   x$batch$bag <- as.numeric(x$batch$bag)
   # Clean batch sample names
-  x$batch$sample <- stringr::str_trim(gsub("#|-A|-1", "", x$batch$sample))
+  x$batch$sample <- stringr::str_trim(gsub("#|-A$|-1$", "", x$batch$sample))
   x$batch[["site"]][grep("JB", x$batch$sample)] <- "JENSEN'S BAY"
   x$batch[["site"]][grep("MS", x$batch$sample)] <- "MALTBY SLOUGH"
   x$batch$sample <- stringr::str_trim(gsub("JB", "", x$batch$sample))
@@ -106,11 +106,12 @@ read_lims <- function(path) {
   ng_dat$bag <- as.numeric(gsub("[^0-9.-]", "", ng_dat$bag))
   # Extract cleaned sample name
   ng_dat$sample <- stringr::str_trim(gsub("bag\\d+|bag \\d+", "", ng_dat$lims_sample, ignore.case = TRUE))
-  ng_dat$sample <- stringr::str_trim(gsub("#|-A|-1", "", ng_dat$sample))
   # Extract duplicate/replicates
   ng_dat$replicate <- ifelse(grepl("dup|dp", ng_dat$sample, ignore.case = TRUE), 2, 1)
   ng_dat$sample <- stringr::str_trim(gsub("dup|dp", "", ng_dat$sample, ignore.case = TRUE))
   ng_dat$pesc_id <- stringr::str_trim(gsub("dup|dp", "", ng_dat$pesc_id, ignore.case = TRUE))
+  # Cleanup miscellanea
+  ng_dat$sample <- stringr::str_trim(gsub("#|-A$|-1$", "", ng_dat$sample))
   # Extract site
   ng_dat$site <- stringr::str_extract(toupper(ng_dat$sample), "TOFINO|BOUNDARY BAY|IONA|ROBERTS BANK|ROBERT'S BANK|JENSENS BAY|JENSEN'S BAY|BRUNSWICK POINT|COWICHAN")
   ng_dat$sample <- stringr::str_trim(gsub("TOFINO|BOUNDARY BAY|IONA|IONA NORTH|IONA SOUTH|ROBERTS BANK|ROBERT'S BANK|JENSENS BAY|JENSEN'S BAY|BRUNSWICK POINT|COWICHAN", "", ng_dat$sample))
@@ -142,7 +143,54 @@ read_lims <- function(path) {
   x$benchtop[,-c(2,12,13,14)] <- dplyr::mutate_all(x$benchtop[,-c(2,12,13,14)], as.numeric)
 
   out <- list(x$batch, ng_dat, x$benchtop)
-  names(out) <- c("samples", "ng data", "bench sheet")
+  names(out) <- c("batch", "ng data", "bench sheet")
 
+  return(out)
+}
+
+
+#' Merge full sample metadata with PESC data
+#'
+#' @param lims_out List output from read_lims()
+#' @param samples Fatty acid sample metadata following the BPFA data entry template
+#'
+#' @return A list of containing PESC data matched to full sample metadata, PESC results, and PESC bench sheets containing test tube metadata.
+#' @export
+#'
+#' @examples
+#' \dontrun {
+#' out <- read_lims("~/Documents/path/to/lims/file.xslx")
+#' samples <- read.csv("~/Documents/path/to/sample/metadata.csv")
+#' merged_results <- merge_samples(lims_out = out, samples = samples)
+#' }
+merge_samples <- function(lims_out, samples) {
+  stopifnot("`lims_out` must be a list output produced by `read_lims()`." = inherits(lims_out, "list"))
+  stopifnot("`lims_out` must be a list output of length three, produced by `read_lims().`" = (length(lims_out) == 3))
+  stopifnot("`lims_out` must be a list output produced by `read_lims() with names 'batch', 'ng data', and 'bench sheet'.`." = all(names(lims_out) %in% c("batch", "ng data", "bench sheet")))
+
+  batch <- lims_out$batch
+  ng_dat <- lims_out$`ng data`
+  benchtop <- lims_out$`bench sheet`
+
+  # Clean up samples
+  samples$date_collected <- as.Date(samples$date_collected)
+  samples$site <- toupper(samples$site)
+  samples$sample <- stringr::str_trim(gsub("-", "", samples$sample))
+  samples$sample <- stringr::str_trim(gsub("A$", "", samples$sample))
+  samples$sample <- stringr::str_trim(gsub("2021|2022|2023", "", samples$sample))
+  samples$sample <- sub("^0+", "", samples$sample) # Remove leading zeroes
+
+  # Merge batch and samples
+  s <- merge(batch, samples, by = c("sample", "date_collected"), all.x = TRUE)
+  s <- dplyr::select(s, -site.x)
+  names(s) <- gsub(".y", "", names(s))
+  s <- dplyr::arrange(s, lims_ref, pesc_id)
+  s <- dplyr::select(s, pesc_id, lims_ref, bag, sample, site, date_collected, time_collected, date_to_pesc, dplyr::everything())
+
+  # Rearrange some columns and spit results out
+  benchtop <- dplyr::select(benchtop, pesc_id, dplyr::everything())
+
+  out <- list(s, benchtop, ng_dat)
+  names(out) <- c("samples", "bench sheet", "ng data")
   return(out)
 }
