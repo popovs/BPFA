@@ -173,7 +173,7 @@ merge_samples <- function(lims_out, samples) {
   benchtop <- lims_out$`bench sheet`
 
   # Clean up samples
-  samples$date_collected <- as.Date(samples$date_collected)
+  samples$date_collected <- as.Date(samples$date_collected) # TODO: make this more robust
   samples$site <- toupper(samples$site)
   samples$sample <- stringr::str_trim(gsub("-", "", samples$sample))
   samples$sample <- stringr::str_trim(gsub("A$", "", samples$sample))
@@ -183,7 +183,7 @@ merge_samples <- function(lims_out, samples) {
   # Merge batch and samples
   s <- merge(batch, samples, by = c("sample", "date_collected"), all.x = TRUE)
   s <- dplyr::select(s, -site.x)
-  names(s) <- gsub(".y", "", names(s))
+  names(s) <- gsub("site.y", "site", names(s))
   s <- dplyr::arrange(s, lims_ref, pesc_id)
   s <- dplyr::select(s, pesc_id, lims_ref, bag, sample, site, date_collected, time_collected, date_to_pesc, dplyr::everything())
 
