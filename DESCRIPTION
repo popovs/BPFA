@@ -1,11 +1,15 @@
 Package: bpfa
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Create and Maintain a Database of PESC Fatty Acid Data
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Sarah Popov
+Maintainer: Sarah Popov <sarah.popov@mail.mcgill.ca>
+Description: bpfa allows you to initialize a SQLite database on your
+    own machine and then populate it with fatty acid sample data. Locations
+    are a static table that is included with this R package in the `data-raw`
+    directory. Sample data is provided by PESC and is processed by the functions
+    in this package, then once it is vetted and reviewed by the user, it can be
+    added to the SQLite database.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
@@ -13,7 +17,10 @@ Imports:
     dplyr,
     janitor,
     plyr,
+    rappdirs,
     readxl,
     stringr,
     tidyr
 RoxygenNote: 7.1.2
+Depends: 
+    R (>= 2.10)
