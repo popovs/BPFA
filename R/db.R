@@ -200,11 +200,23 @@ import_bpfa <- function(lims_out,
 
 }
 
-# Does not work.. maybe tidy up
+
+#' Connect to the BPFA database
+#'
+#' A simple wrapper for `DBI::dbConnect(RSQLite::SQLite(), file.path(bpfa_dir(), "bpfa.db"))`.
+#'
+#' @return An SQLiteConnection object.
+#' @export
+#'
+#' @examples \dontrun{
+#' bpfa <- connect_bpfa()
+#' DBI::dbListTables(bpfa)
+#' DBI::dbDisconnect(bpfa)
+#' }
 connect_bpfa <- function() {
   db_dir <- bpfa_dir()
   db_path <- file.path(db_dir, "bpfa.db")
   stopifnot("There is no bpfa database to connect to yet! Did you run initialize_bpfa() yet?" = file.exists(db_path))
+  message("Don't forget to run DBI::dbDisconnect(<database object>) when you are done!")
   DBI::dbConnect(RSQLite::SQLite(), db_path)
-  message("Don't forget to run DBI::dbDisconnect(bpfa) when you are done!")
 }

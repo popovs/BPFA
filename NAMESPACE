@@ -3,6 +3,7 @@
 export(bpfa_dir)
 export(clean_locs)
 export(clean_samples)
+export(connect_bpfa)
 export(import_bpfa)
 export(initialize_bpfa)
 export(merge_samples)
