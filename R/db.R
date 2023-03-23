@@ -127,3 +127,69 @@ initialize_bpfa <- function() {
   }
 
 }
+
+#' Import processed PESC data into the BPFA database
+#'
+#' After data are read in and cleaned by the `read_lims` function,
+#' they can then be added to the three PESC data tables in the BPFA
+#' database: `pesc_batch`, `pesc_benchtop`, and `pesc_data`.
+#'
+#' @param lims_out Output from the read_lims function.
+#' @param verbose Logical (T/F). Should the number of new records appended into each table be printed?
+#'
+#' @export
+#'
+#' @examples \dontrun{
+#' initialize_bpfa()
+#' lims <- read_lims('~Documents/path/to/lims/file.xlsx')
+#' import_bpfa(lims)
+#' }
+import_bpfa <- function(lims_out,
+                        verbose = TRUE) {
+  # Check provided data is correct
+  stopifnot("`lims_out` must be a list output produced by `read_lims()`." = inherits(lims_out, "list"))
+  stopifnot("`lims_out` must be a list output of length three, produced by `read_lims().`" = (length(lims_out) == 3))
+  stopifnot("`lims_out` must be a list output produced by `read_lims() with names 'batch', 'ng data', and 'bench sheet'.`." = all(names(lims_out) %in% c("batch", "ng data", "bench sheet")))
+
+  batch <- lims_out$batch
+  ng_dat <- lims_out$`ng data`
+  benchtop <- lims_out$`bench sheet`
+
+  # Normalize tables prior to db import
+  benchtop <- dplyr::select(benchtop, -bag)
+
+  # Connect to db
+  db_dir <- bpfa_dir()
+  db_path <- file.path(db_dir, "bpfa.db")
+  stopifnot("There is no bpfa database to connect to yet! Did you run initialize_bpfa() yet?" = file.exists(db_path))
+
+  # TODO: create function to scan the database to see if the
+  # records you are trying to import already exist in the db.
+
+  bpfa <- DBI::dbConnect(RSQLite::SQLite(), db_path)
+  DBI::dbWriteTable(bpfa, "pesc_batch", batch, append = TRUE)
+  DBI::dbWriteTable(bpfa, "pesc_benchtop", benchtop, append = TRUE)
+  DBI::dbWriteTable(bpfa, "pesc_data", ng_dat, append = TRUE)
+
+  # Font colors for messages
+  purple <- crayon::make_style("#AF00AF")
+  darkcyan <- crayon::make_style("#00D787")
+  fuschia <- crayon::make_style("#FF005F")
+  if (verbose) {
+    message(paste("Database table", crayon::bold(purple('pesc_batch')), "updated with", nrow(batch), "new records."))
+    message(paste("Database table", crayon::bold(fuschia('pesc_benchtop')), "updated with", nrow(benchtop), "new records."))
+    message(paste("Database table", crayon::bold(darkcyan('pesc_data')), "updated with", nrow(ng_dat), "new records."))
+  }
+
+  DBI::dbDisconnect()
+
+}
+
+# Does not work.. maybe tidy up
+connect_bpfa <- function() {
+  db_dir <- bpfa_dir()
+  db_path <- file.path(db_dir, "bpfa.db")
+  stopifnot("There is no bpfa database to connect to yet! Did you run initialize_bpfa() yet?" = file.exists(db_path))
+  DBI::dbConnect(RSQLite::SQLite(), db_path)
+  message("Don't forget to run DBI::dbDisconnect(bpfa) when you are done!")
+}
