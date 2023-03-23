@@ -48,7 +48,7 @@ clean_locs <- function(x) {
 #'
 #' @param x A string of PESC sample names.
 #'
-#' @return A dataframe consisting of the original sample name, sample bag number (if detected), waypoint, replicate status (if detected), and two logical columns indicating if the sample was collected in Jensen's Bay (`jb == TRUE`) or Maltby Slough (`mb == TRUE`).
+#' @return A dataframe consisting of the original sample name, sample bag number (if detected), cleaned sample number, replicate status (if detected), and two logical columns indicating if the sample was collected in Jensen's Bay (`jb == TRUE`) or Maltby Slough (`mb == TRUE`).
 #' @export
 clean_samples <- function(x) {
   stopifnot("x must be a character vector." = inherits(x, "character"))
@@ -61,44 +61,44 @@ clean_samples <- function(x) {
   x$bag <- as.numeric(gsub("[^0-9.-]", "", x$bag))
 
   # Extract remaining sample name
-  x$waypoint <- stringr::str_trim(gsub("BAG\\d+|BAG \\d+", "", x$x, ignore.case = TRUE))
+  x$sample <- stringr::str_trim(gsub("BAG\\d+|BAG \\d+", "", x$x, ignore.case = TRUE))
 
   # Extract duplicate/replicates
-  x$replicate <- grepl("DUP|DP", x$waypoint, ignore.case = TRUE)
-  x$waypoint <- gsub("DUP|DP", "", x$waypoint, ignore.case = TRUE)
+  x$replicate <- grepl("DUP|DP", x$sample, ignore.case = TRUE)
+  x$sample <- gsub("DUP|DP", "", x$sample, ignore.case = TRUE)
 
-  # Clean '#', trailing A/B or trailing -1/-2
-  x$waypoint <- gsub("#|A$|B$|-1$|-2$", "", x$waypoint)
-
-  # Clean leading BN, JB, MS
-  # Samples that start with JB or MB need to be noted
+  # Clean BN, JB, MS
+  # Samples containing 'JB' or 'MB' need to be noted
   # so the site column can be updated in read_lims function
-  x$jb <- grepl("JB", x$waypoint)
-  x$ms <- grepl("MS", x$waypoint)
+  x$jb <- grepl("JB", x$sample)
+  x$ms <- grepl("MS", x$sample)
 
-  x$waypoint <- gsub("BN", "", x$waypoint)
-  x$waypoint <- gsub("JB", "", x$waypoint)
-  x$waypoint <- gsub("MS", "", x$waypoint)
+  x$sample <- gsub("BN", "", x$sample)
+  x$sample <- gsub("JB", "", x$sample)
+  x$sample <- gsub("MS", "", x$sample)
 
   # Remove year
-  x$waypoint <- gsub("2020|2021|2022", "", x$waypoint)
+  x$sample <- gsub("2020|2021|2022", "", x$sample)
 
   # Replace '0P' typo with 'OP'
-  x$waypoint <- gsub("0P", "OP", x$waypoint)
+  x$sample <- gsub("0P", "OP", x$sample)
 
   # Trim up whitespace
-  x$waypoint <- stringr::str_trim(x$waypoint)
-  x$waypoint <- stringr::str_squish(x$waypoint)
+  x$sample <- stringr::str_trim(x$sample)
+  x$sample <- stringr::str_squish(x$sample)
+
+  # Clean '#', trailing A/B or trailing -1/-2
+  x$sample <- gsub("#|A$|B$|-1$|-2$", "", x$sample)
 
   # Clean leading/trailing dash
-  x$waypoint <- gsub("^-|-$", "", x$waypoint)
+  x$sample <- gsub("^-|-$", "", x$sample)
 
   # Clean leading zeroes
-  x$waypoint <- gsub("^0", "", x$waypoint)
+  x$sample <- gsub("^0", "", x$sample)
 
   # Final trim up
-  x$waypoint <- stringr::str_trim(x$waypoint)
-  x$waypoint <- stringr::str_squish(x$waypoint)
+  x$sample <- stringr::str_trim(x$sample)
+  x$sample <- stringr::str_squish(x$sample)
 
   return(x)
 }

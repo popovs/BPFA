@@ -10,7 +10,7 @@ clean_samples(x)
 \item{x}{A string of PESC sample names.}
 }
 \value{
-A dataframe consisting of the original sample name, sample bag number (if detected), waypoint, replicate status (if detected), and two logical columns indicating if the sample was collected in Jensen's Bay (`jb == TRUE`) or Maltby Slough (`mb == TRUE`).
+A dataframe consisting of the original sample name, sample bag number (if detected), cleaned sample number, replicate status (if detected), and two logical columns indicating if the sample was collected in Jensen's Bay (`jb == TRUE`) or Maltby Slough (`mb == TRUE`).
 }
 \description{
 PESC sample names do not match BPFA sample names and need to be

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_files.R
 \name{read_lims}
 \alias{read_lims}
-\title{Read and clean up LIMS data sheets}
+\title{Read and clean up LIMS data}
 \usage{
 read_lims(path)
 }
@@ -13,7 +13,7 @@ read_lims(path)
 A list containing two dataframes.
 }
 \description{
-Read and clean up LIMS data sheets
+Read and clean up LIMS data
 }
 \examples{
 \dontrun {
