@@ -129,7 +129,13 @@ initialize_bpfa <- function() {
 
   DBI::dbExecute(db, "drop view if exists samples_locs;")
   DBI::dbExecute(db, "create view samples_locs as
-               select * from samples natural join locations;")
+                 select sample_id,
+                 code || '-' || replace(waypoint, '-', '') || '-' || replace(date_collected, '-', '') as sample,
+                 site, waypoint, latitude, longitude,
+                 date_collected, time_collected, substrate, rain_yn,
+                 salinity_ppt, temperature_c, photo_no, sampler,
+                 comments
+                 from samples natural join locations;")
 
   DBI::dbDisconnect(db)
 
