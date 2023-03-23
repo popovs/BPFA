@@ -172,47 +172,4 @@ read_lims <- function(path) {
 }
 
 
-#' Merge full sample metadata with PESC data
-#'
-#' @param lims_out List output from read_lims()
-#' @param samples Fatty acid sample metadata following the BPFA data entry template
-#'
-#' @return A list of containing PESC data matched to full sample metadata, PESC results, and PESC bench sheets containing test tube metadata.
-#' @export
-#'
-#' @examples \dontrun {
-#' out <- read_lims("~/Documents/path/to/lims/file.xslx")
-#' samples <- read.csv("~/Documents/path/to/sample/metadata.csv")
-#' merged_results <- merge_samples(lims_out = out, samples = samples)
-#' }
-merge_samples <- function(lims_out, samples) {
-  stopifnot("`lims_out` must be a list output produced by `read_lims()`." = inherits(lims_out, "list"))
-  stopifnot("`lims_out` must be a list output of length three, produced by `read_lims().`" = (length(lims_out) == 3))
-  stopifnot("`lims_out` must be a list output produced by `read_lims() with names 'batch', 'ng data', and 'bench sheet'.`." = all(names(lims_out) %in% c("batch", "ng data", "bench sheet")))
 
-  batch <- lims_out$batch
-  ng_dat <- lims_out$`ng data`
-  benchtop <- lims_out$`bench sheet`
-
-  # Clean up samples
-  samples$date_collected <- as.Date(samples$date_collected) # TODO: make this more robust
-  samples$site <- toupper(samples$site)
-  samples$sample <- stringr::str_trim(gsub("-", "", samples$sample))
-  samples$sample <- stringr::str_trim(gsub("A$", "", samples$sample))
-  samples$sample <- stringr::str_trim(gsub("2021|2022|2023", "", samples$sample))
-  samples$sample <- sub("^0+", "", samples$sample) # Remove leading zeroes
-
-  # Merge batch and samples
-  s <- merge(batch, samples, by = c("sample", "date_collected"), all.x = TRUE)
-  s <- dplyr::select(s, -site.x)
-  names(s) <- gsub("site.y", "site", names(s))
-  s <- dplyr::arrange(s, lims_ref, pesc_id)
-  s <- dplyr::select(s, pesc_id, lims_ref, bag, sample, site, date_collected, time_collected, date_to_pesc, dplyr::everything())
-
-  # Rearrange some columns and spit results out
-  benchtop <- dplyr::select(benchtop, pesc_id, dplyr::everything())
-
-  out <- list(s, benchtop, ng_dat)
-  names(out) <- c("samples", "bench sheet", "ng data")
-  return(out)
-}
