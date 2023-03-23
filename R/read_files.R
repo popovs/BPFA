@@ -134,19 +134,23 @@ read_lims <- function(path) {
   x$benchtop[,-c(2,12,13,14)] <- dplyr::mutate_all(x$benchtop[,-c(2,12,13,14)], as.numeric)
   # Cleanup pesc_id
   x$benchtop$pesc_id <- gsub("dup|dp", "", x$benchtop$pesc_id, ignore.case = TRUE)
+  x$benchtop$pesc_id <- gsub("tube|tube\\d+|tube \\d+", "", x$benchtop$pesc_id, ignore.case = TRUE)
   x$benchtop$pesc_id <- stringr::str_trim(x$benchtop$pesc_id)
 
   # Miscellaneous data checks
   # Check that the bag #s in benchtop matches bench bag #s in batch
-  if (nrow(dplyr::setdiff(unique(x$batch[,c("pesc_id", "bag")]),
-                 unique(x$benchtop[,c("pesc_id", "bag")]))) > 0) warning("PESC sample ID - bag number combinations do not match between the 'batch' and 'benchtop' tabs.")
+  # TODO: make this better... it's annoying to get this error if
+  # the combos match but the length is different, i.e. batch has info
+  # on samples that simply weren't run
+  #if (nrow(dplyr::setdiff(unique(x$batch[,c("pesc_id", "bag")]),
+  #               unique(x$benchtop[,c("pesc_id", "bag")]))) > 0) warning("PESC sample ID - bag number combinations do not match between the 'batch' and 'benchtop' tabs.")
 
   # Normalize tables before returning output
   # batch
   x$batch <- dplyr::select(x$batch, pesc_id, site, sample, bag, lims_ref, date_collected, date_to_pesc)
   x$batch <- dplyr::arrange(x$batch, pesc_id)
   # bench
-  x$benchtop <- dplyr::select(x$benchtop, -bag)
+  #x$benchtop <- dplyr::select(x$benchtop, -bag)
   # ng dat
   ng_dat <- dplyr::select(ng_dat, pesc_id, replicate, lims_sample:lims_ref)
 

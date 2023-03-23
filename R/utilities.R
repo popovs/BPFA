@@ -67,15 +67,13 @@ clean_samples <- function(x) {
   x$replicate <- grepl("DUP|DP", x$sample, ignore.case = TRUE)
   x$sample <- gsub("DUP|DP", "", x$sample, ignore.case = TRUE)
 
-  # Clean BN, JB, MS
+  # Remove location names from sample
   # Samples containing 'JB' or 'MB' need to be noted
   # so the site column can be updated in read_lims function
   x$jb <- grepl("JB", x$sample)
   x$ms <- grepl("MS", x$sample)
 
-  x$sample <- gsub("BN", "", x$sample)
-  x$sample <- gsub("JB", "", x$sample)
-  x$sample <- gsub("MS", "", x$sample)
+  x$sample <- gsub("BN|JB|MS|TOFINO|BOUNDARY BAY|IONA|IONA NORTH|IONA SOUTH|ROBERTS BANK|ROBERT'S BANK|JENSENS BAY|JENSEN'S BAY|BRUNSWICK POINT|COWICHAN", "", x$sample)
 
   # Remove year
   x$sample <- gsub("2020|2021|2022", "", x$sample)
