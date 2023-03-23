@@ -12,16 +12,17 @@
 clean_locs <- function(x) {
   stopifnot("x must be a character vector." = inherits(x, "character"))
 
-  x <- stringr::str_trim(x)
-  x <- stringr::str_squish(x)
-  x <- stringr::str_to_title(x)
-
   # Replace specific issues
-  x <- gsub(" Chl-A", "", x)
-  x <- gsub(" Foreshore", "", x)
+  x <- gsub("North|South", "", x)
+  x <- gsub("Chl-A", "", x)
+  x <- gsub("Foreshore", "", x)
   x <- gsub("Banks", "Bank", x)
   x <- gsub("Roberts Bank", "Brunswick Point", x)
   x <- gsub("^Cowichan$", "Cowichan Bay", x)
+
+  x <- stringr::str_trim(x)
+  x <- stringr::str_squish(x)
+  x <- stringr::str_to_title(x)
 
   return(x)
 }
@@ -57,11 +58,11 @@ clean_samples <- function(x) {
   x <- as.data.frame(x)
 
   # Extract bag
-  x$bag <- stringr::str_extract(x$x, "BAG\\d+|BAG \\d+")
+  x$bag <- stringr::str_extract(x$x, "BAG\\d+|BAG\\s+\\d+")
   x$bag <- as.numeric(gsub("[^0-9.-]", "", x$bag))
 
   # Extract remaining sample name
-  x$sample <- stringr::str_trim(gsub("BAG\\d+|BAG \\d+", "", x$x, ignore.case = TRUE))
+  x$sample <- stringr::str_trim(gsub("BAG\\d+|BAG\\s+\\d+", "", x$x, ignore.case = TRUE))
 
   # Extract duplicate/replicates
   x$replicate <- grepl("DUP|DP", x$sample, ignore.case = TRUE)
