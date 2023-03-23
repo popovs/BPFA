@@ -11,6 +11,17 @@ bpfa_dir(...)
 }
 \description{
 Prints the BPFA sqlite file storage location, regardless of OS, for \link{initialize_bpfa}.
+E.g., for Mac:
+
+`~Library/Application Support/BPFA`
+
+If on Windows, either:
+
+`C:\\Documents and Settings\<User>\\Application Data\\Local Settings\<AppAuthor>\\BPFA`
+
+Or:
+
+`C:\\Documents and Settings\<User>\\Application Data\<AppAuthor>\\BPFA`
 }
 \examples{
 \dontrun{

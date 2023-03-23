@@ -14,11 +14,14 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    crayon,
+    DBI,
     dplyr,
     janitor,
     plyr,
     rappdirs,
     readxl,
+    RSQLite,
     stringr,
     tidyr
 RoxygenNote: 7.1.2
