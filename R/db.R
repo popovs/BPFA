@@ -32,6 +32,22 @@ bpfa_dir <- function(...) {
   )
 }
 
+#' Create a new BPFA database
+#'
+#' This function will create a new, clean copy of the Brunswick Point
+#' Fatty Acid (BPFA) database. A new copy of the database comes with
+#' the location and sample tables pre-loaded, but no PESC results data.
+#'
+#' If the function detects that you already have a copy of the BPFA
+#' database on your computer, it will ask if you would like to keep
+#' a backup copy of the existing database or if you would like to
+#' overwrite it instead.
+#'
+#' @export
+#'
+#' @examples \dontrun{
+#' initialize_bpfa()
+#' }
 initialize_bpfa <- function() {
   db_dir <- bpfa_dir()
   message("Creating bpfa.db sqlite file in: ", crayon::cyan(db_dir))

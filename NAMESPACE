@@ -3,5 +3,6 @@
 export(bpfa_dir)
 export(clean_locs)
 export(clean_samples)
+export(initialize_bpfa)
 export(merge_samples)
 export(read_lims)
