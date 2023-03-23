@@ -12,6 +12,10 @@
 clean_locs <- function(x) {
   stopifnot("x must be a character vector." = inherits(x, "character"))
 
+  x <- stringr::str_trim(x)
+  x <- stringr::str_squish(x)
+  x <- stringr::str_to_title(x)
+
   # Replace specific issues
   x <- gsub("North|South", "", x)
   x <- gsub("Chl-A", "", x)
@@ -20,6 +24,7 @@ clean_locs <- function(x) {
   x <- gsub("Roberts Bank", "Brunswick Point", x)
   x <- gsub("^Cowichan$", "Cowichan Bay", x)
 
+  # Trim up again
   x <- stringr::str_trim(x)
   x <- stringr::str_squish(x)
   x <- stringr::str_to_title(x)

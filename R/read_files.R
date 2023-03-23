@@ -5,8 +5,7 @@
 #' @return A list containing two dataframes.
 #' @export
 #'
-#' @examples
-#' \dontrun {
+#' @examples \dontrun{
 #' read_lims("~/Documents/path/to/lims/file.xslx")
 #' }
 read_lims <- function(path) {
@@ -181,8 +180,7 @@ read_lims <- function(path) {
 #' @return A list of containing PESC data matched to full sample metadata, PESC results, and PESC bench sheets containing test tube metadata.
 #' @export
 #'
-#' @examples
-#' \dontrun {
+#' @examples \dontrun {
 #' out <- read_lims("~/Documents/path/to/lims/file.xslx")
 #' samples <- read.csv("~/Documents/path/to/sample/metadata.csv")
 #' merged_results <- merge_samples(lims_out = out, samples = samples)

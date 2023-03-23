@@ -16,7 +16,7 @@ A list containing two dataframes.
 Read and clean up LIMS data
 }
 \examples{
-\dontrun {
+\dontrun{
 read_lims("~/Documents/path/to/lims/file.xslx")
 }
 }

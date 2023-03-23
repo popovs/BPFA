@@ -95,7 +95,8 @@ initialize_bpfa <- function() {
                                                  "dry_batch_id" = 'TEXT',
                                                  "ng_whole" = 'REAL',
                                                  "whole_batch_id" = 'TEXT',
-                                                 "lims_ref" = 'TEXT'))
+                                                 "lims_ref" = 'TEXT',
+                                                 "import_date" = 'TEXT'))
   DBI::dbCreateTable(db, "pesc_benchtop", fields = c("pesc_id" = 'TEXT',
                                                      "tube_no" = 'INTEGER',
                                                      "tube_g" = 'REAL',
@@ -109,34 +110,75 @@ initialize_bpfa <- function() {
                                                      "prct_dry_weight" = 'REAL',
                                                      "start_date" = 'TEXT',
                                                      "analyst_initials" = 'TEXT',
-                                                     "notes" = 'TEXT'))
+                                                     "notes" = 'TEXT',
+                                                     "import_date" = 'TEXT'))
   DBI::dbCreateTable(db, "pesc_batch", fields = c("pesc_id" = 'TEXT',
                                                   "site" = 'TEXT',
                                                   "sample" = 'TEXT',
                                                   "bag" = 'INTEGER',
                                                   "lims_ref" = 'TEXT',
                                                   "date_collected" = 'TEXT',
-                                                  "date_to_pesc" = 'TEXT'))
+                                                  "date_to_pesc" = 'TEXT',
+                                                  "import_date" = 'TEXT'))
 
   # Create views
-  # TODO: link this to sample + locations
-  DBI::dbExecute(db, "drop view if exists results;")
-  DBI::dbExecute(db, "create view results as
-               select d.pesc_id, d.lims_ref, b.bag,
-               b.sample, b.site, assay,
-               ng_per_dry, ng_whole
-               from pesc_data d left join pesc_batch b
-               on d.pesc_id = b.pesc_id;")
+  # bpfa_pesc_link
+  # Table linking bpfa sample_id to pesc_id
+  DBI::dbExecute(db, "drop view if exists bpfa_pesc_link;")
+  DBI::dbExecute(db, "create view bpfa_pesc_link as
+                  select sample_id, pesc_id, pb.site,
+                    pb.sample, pb.date_collected, pb.bag,
+                    count(*) as n_matches
+                  from samples s natural join locations l
+                  left join pesc_batch pb
+                    on l.site = pb.site
+                    and l.waypoint = pb.sample
+                    and s.date_collected = pb.date_collected
+                  group by sample_id, pesc_id, pb.site, pb.sample, pb.bag;")
 
+  # samples_locs
+  # Table merging sample info to location info + pesc_id
   DBI::dbExecute(db, "drop view if exists samples_locs;")
   DBI::dbExecute(db, "create view samples_locs as
-                 select sample_id,
-                 code || '-' || replace(waypoint, '-', '') || '-' || replace(date_collected, '-', '') as sample,
-                 site, waypoint, latitude, longitude,
-                 date_collected, time_collected, substrate, rain_yn,
-                 salinity_ppt, temperature_c, photo_no, sampler,
-                 comments
-                 from samples natural join locations;")
+                 select s.sample_id, pesc_id,
+                    code || '-' || replace(waypoint, '-', '') || '-' || replace(s.date_collected, '-', '') as sample,
+                    l.site, waypoint, latitude, longitude,
+                    s.date_collected, time_collected, substrate, rain_yn,
+                    salinity_ppt, temperature_c, photo_no, sampler,
+                    comments
+                 from samples s natural join locations l
+                    left join bpfa_pesc_link bpl
+                  on s.sample_id = bpl.sample_id;")
+
+  # results
+  # pesc_data linked to location and sample information
+  DBI::dbExecute(db, "drop view if exists results;")
+  DBI::dbExecute(db, "create view results as
+                  select sample_id, pd.pesc_id, sl.sample,
+                    pb.site, pb.sample as waypoint,
+                    pb.date_collected, latitude, longitude,
+                    time_collected, substrate, rain_yn,
+                    salinity_ppt, temperature_c, photo_no,
+                    sampler, comments, pd.lims_ref, pb.bag,
+                    assay, ng_per_dry, ng_whole
+                  from pesc_data pd left join pesc_batch pb
+                    on pd.pesc_id = pb.pesc_id
+                  left join samples_locs sl
+                    on pd.pesc_id = sl.pesc_id;")
+
+  # unmatched_pesc_ids
+  # PESC data that Taylor sent that does not line up with any
+  # sample data we have
+  DBI::dbExecute(db, "drop view if exists unmatched_pesc_ids;")
+  DBI::dbExecute(db, "create view unmatched_pesc_ids as
+                 select distinct pb.pesc_id, lims_sample, pb.site,
+                    pb.sample, pb.bag, pb.lims_ref, pb.date_collected,
+                    date_to_pesc
+                 from pesc_batch pb left join pesc_data pd
+                    on pb.pesc_id = pd.pesc_id
+                 left join bpfa_pesc_link bpl
+                    on pb.pesc_id = bpl.pesc_id
+                 where bpl.pesc_id is null;")
 
   DBI::dbDisconnect(db)
 
@@ -176,6 +218,12 @@ import_bpfa <- function(lims_out,
   batch <- lims_out$batch
   ng_dat <- lims_out$`ng data`
   benchtop <- lims_out$`bench sheet`
+
+  # Add import date
+  import_date <- Sys.time()
+  batch$import_date <- import_date
+  ng_dat$import_date <- import_date
+  benchtop$import_date <- import_date
 
   # Normalize tables prior to db import
   benchtop <- dplyr::select(benchtop, -bag)
