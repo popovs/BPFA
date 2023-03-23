@@ -136,9 +136,13 @@ read_lims <- function(path) {
                          "prct_dry_weight", "start_date", "analyst_initials", "notes")
   x$benchtop <- x$benchtop[!is.na(x$benchtop$pesc_id),]
   x$benchtop[,-c(2,12,13,14)] <- dplyr::mutate_all(x$benchtop[,-c(2,12,13,14)], as.numeric)
+  # Extract tube number, if present
+  x$benchtop$tube_no <- stringr::str_extract(tolower(x$benchtop$pesc_id), "tube\\d+|tube\\s+\\d+")
+  x$benchtop$tube_no <- as.numeric(stringr::str_extract(x$benchtop$tube_no, '\\d'))
+  x$benchtop$tube_no <- ifelse(is.na(x$benchtop$tube_no), 1, x$benchtop$tube_no)
   # Cleanup pesc_id
   x$benchtop$pesc_id <- gsub("dup|dp", "", x$benchtop$pesc_id, ignore.case = TRUE)
-  x$benchtop$pesc_id <- gsub("tube|tube\\d+|tube \\d+", "", x$benchtop$pesc_id, ignore.case = TRUE)
+  x$benchtop$pesc_id <- gsub("tube|tube\\d+|tube\\s+\\d+", "", x$benchtop$pesc_id, ignore.case = TRUE)
   x$benchtop$pesc_id <- stringr::str_trim(x$benchtop$pesc_id)
   # Clean start_date... sqlite plays nicer with string dates, so they are converted to chr
   x$benchtop$start_date <- as.character(x$benchtop$start_date)
@@ -157,6 +161,7 @@ read_lims <- function(path) {
   x$batch <- dplyr::arrange(x$batch, pesc_id)
   # bench
   #x$benchtop <- dplyr::select(x$benchtop, -bag)
+  x$benchtop <- dplyr::select(x$benchtop, pesc_id, bag, tube_no, tube_g:notes)
   # ng dat
   ng_dat <- dplyr::select(ng_dat, pesc_id, replicate, lims_sample:lims_ref)
 
