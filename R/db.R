@@ -57,7 +57,7 @@ initialize_bpfa <- function() {
 
   # Check if existing db already there  prompt user
   # to keep backup copy or overwrite if exists
-  if (exists(db_path)) {
+  if (file.exists(db_path)) {
     new_db <- FALSE
 
     message("File bpfa.db already exists. Would you like to keep a backup of the previous db? \n 1. Yes, create a backup copy of the existing database. \n 2. No, overwrite the old database with a fresh copy.")
@@ -72,7 +72,9 @@ initialize_bpfa <- function() {
       dir.create(file.path(db_dir, "backups"), showWarnings = FALSE)
       # Rename old db to add datetime; copy & move to backup folder
       st <- format(Sys.time(), "%Y%m%d_%H%M") # get system time
-      fs::file_copy(db_path, paste0(db_dir, "/backups/", "bpfa_", st, ".db"))
+      fs::file_move(db_path, paste0(db_dir, "/backups/", "bpfa_", st, ".db"))
+    } else if (overwrite == 2) {
+      fs::file_delete(db_path)
     }
 
   } else {
@@ -82,8 +84,39 @@ initialize_bpfa <- function() {
   # Now create the database
   db <- DBI::dbConnect(RSQLite::SQLite(), db_path)
 
-  DBI::dbWriteTable(db, bpfa::locations, overwrite = TRUE)
-  DBI::dbWriteTable(db, bpfa::samples, overwrite = TRUE)
+  DBI::dbWriteTable(db, "locations", bpfa::locations, overwrite = TRUE)
+  DBI::dbWriteTable(db, "samples", bpfa::samples, overwrite = TRUE)
+  DBI::dbCreateTable(db, "pesc_data", fields = c("pesc_id" = 'TEXT',
+                                                 "replicate" = 'INTEGER',
+                                                 "lims_sample" = 'TEXT',
+                                                 "assay" = 'TEXT',
+                                                 "ng_per_dry" = 'REAL',
+                                                 "dry_batch_id" = 'TEXT',
+                                                 "ng_whole" = 'REAL',
+                                                 "whole_batch_id" = 'TEXT',
+                                                 "lims_ref" = 'TEXT'))
+  DBI::dbCreateTable(db, "pesc_benchtop", fields = c("pesc_id" = 'TEXT',
+                                                     "tube_g" = 'REAL',
+                                                     "tube_sample_wet_g" = 'REAL',
+                                                     "wet_g" = 'REAL',
+                                                     "wet_extracted_g" = "REAL",
+                                                     "dilution_solution_ml" = 'REAL',
+                                                     "tube_sample_dry_g" = 'REAL',
+                                                     "dry_g_per_ml" = 'REAL',
+                                                     "dried_g" = 'REAL',
+                                                     "prct_dry_weight" = 'REAL',
+                                                     "start_date" = 'TEXT',
+                                                     "analyst_initials" = 'TEXT',
+                                                     "notes" = 'TEXT'))
+  DBI::dbCreateTable(db, "pesc_batch", fields = c("pesc_id" = 'TEXT',
+                                                  "site" = 'TEXT',
+                                                  "sample" = 'TEXT',
+                                                  "bag" = 'INTEGER',
+                                                  "lims_ref" = 'TEXT',
+                                                  "date_collected" = 'TEXT',
+                                                  "date_to_pesc" = 'TEXT'))
+
+  DBI::dbDisconnect(db)
 
   if (new_db) {
     message(paste0("🗂 Congratulations, you've created your first copy of the BPFA database at ", crayon::bold$underline(db_path), "!"))
