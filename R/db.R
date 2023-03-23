@@ -232,11 +232,30 @@ import_bpfa <- function(lims_out,
   db_dir <- bpfa_dir()
   db_path <- file.path(db_dir, "bpfa.db")
   stopifnot("There is no bpfa database to connect to yet! Did you run initialize_bpfa() yet?" = file.exists(db_path))
-
-  # TODO: create function to scan the database to see if the
-  # records you are trying to import already exist in the db.
-
   bpfa <- DBI::dbConnect(RSQLite::SQLite(), db_path)
+
+  # Check if the records you are trying to import already exist in the db.
+  if (scan_for_dupes(db = bpfa, lims_out = lims_out)) {
+    # TODO: tests for this
+    message("It looks like these samples already exist in the db. Importing them may result in duplicate data in the database. Would you like to continue? \n 1. Yes, I would like to continue importing this data into the database. \n 2. No, I would like to cancel this import.")
+    cancel <- readline("Option 1 or 2: ")
+
+    while(!(cancel %in% c(1, 2))) {
+      message("Sorry, you must enter either 1 (continue importing) or 2 (cancel import).")
+      cancel <- readline("Option 1 or 2: ")
+    }
+
+    if (cancel == 1) {
+      message("Are you sure? \n 1. Yes, continue importing. \n 2. No, cancel the import.")
+      cancel <- readline("Option 1 or 2: ")
+    }
+
+    if (cancel == 2) {
+      stop("Data import cancelled.")
+    }
+  }
+
+  # If no dupes found, import the data
   DBI::dbWriteTable(bpfa, "pesc_batch", batch, append = TRUE)
   DBI::dbWriteTable(bpfa, "pesc_benchtop", benchtop, append = TRUE)
   DBI::dbWriteTable(bpfa, "pesc_data", ng_dat, append = TRUE)

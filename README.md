@@ -84,6 +84,8 @@ Let's only import the good data. It's very easy.....
 import_bpfa(lims1)
 ```
 
+`import_bpfa` will also scan the database to double check if you've already imported the same data previously and prompt you if you would like to continue the import if it detects possible duplicates.
+
 And that's that!
 
 ### Extracting data

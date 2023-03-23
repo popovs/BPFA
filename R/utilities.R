@@ -106,3 +106,36 @@ clean_samples <- function(x) {
 
   return(x)
 }
+
+
+#' Scan for any pre-existing lims data in database
+#'
+#' This function will scan the database `pesc_batch` and `pesc_benchtop` tables
+#' and compare them to the provided batch and benchtop data in `lims_out` to
+#' determine if that particular `lims_out` dataset has been imported into the
+#' database already. (Scanning `pesc_data` would take awhile and is likely unnecessary.)
+#'
+#' @param db SQLite connection object pointing to the bpfa db
+#' @param lims_out Output from `read_lims`.
+#'
+#' @return Logical (T/F) - does the data in `lims_out` already exist in the database?
+#'
+#' @noRd
+scan_for_dupes <- function(db, lims_out) {
+  # TODO: definitely need to make a bunch of tests for this one...
+  # Check provided data is correct
+  stopifnot("`lims_out` must be a list output produced by `read_lims()`." = inherits(lims_out, "list"))
+  stopifnot("`lims_out` must be a list output of length three, produced by `read_lims().`" = (length(lims_out) == 3))
+  stopifnot("`lims_out` must be a list output produced by `read_lims() with names 'batch', 'ng data', and 'bench sheet'.`." = all(names(lims_out) %in% c("batch", "ng data", "bench sheet")))
+
+  db_batch <- DBI::dbGetQuery(db, "select * from pesc_batch;")
+  db_bench <- DBI::dbGetQuery(db, "select * from pesc_benchtop")
+
+  batch <- lims_out$batch
+  bench <- lims_out$`bench sheet`
+
+  m1 <- nrow(merge(batch, db_batch)) > 0 #== nrow(batch) # Dunno which is better honestly
+  m2 <- nrow(merge(bench, db_bench)) > 0 #== nrow(bench)
+
+  return(any(m1, m2))
+}
