@@ -97,6 +97,7 @@ initialize_bpfa <- function() {
                                                  "whole_batch_id" = 'TEXT',
                                                  "lims_ref" = 'TEXT'))
   DBI::dbCreateTable(db, "pesc_benchtop", fields = c("pesc_id" = 'TEXT',
+                                                     "tube_no" = 'INTEGER',
                                                      "tube_g" = 'REAL',
                                                      "tube_sample_wet_g" = 'REAL',
                                                      "wet_g" = 'REAL',
