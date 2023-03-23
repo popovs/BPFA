@@ -7,7 +7,7 @@ usethis::use_data(locations, overwrite = TRUE)
 
 # Samples data
 samples <- read.csv("data-raw/samples.csv")
-samples$date_collected <- as.Date(samples$date_collected)
+samples$date_collected <- as.character(as.Date(samples$date_collected)) # sqlite plays nicer w string dates...
 samples$rain_yn <- ifelse(samples$rain_yn == 1, TRUE, FALSE)
 
 usethis::use_data(samples, overwrite = TRUE)

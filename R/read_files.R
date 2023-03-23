@@ -61,9 +61,13 @@ read_lims <- function(path) {
   # Clean batch data
   # Clean location names
   x$batch$site <- clean_locs(x$batch$site)
-  # Clean batch data
+  # Clean batch dates... sqlite plays nicer with string dates, so they are converted to chr
   x$batch$date_collected <- janitor::excel_numeric_to_date(as.numeric(x$batch$date_collected))
+  x$batch$date_collected <- as.character(x$batch$date_collected)
+
   x$batch$date_to_pesc <- janitor::excel_numeric_to_date(as.numeric(x$batch$date_to_pesc))
+  x$batch$date_to_pesc <- as.character(x$batch$date_to_pesc)
+  # Clean batch numerics
   x$batch$bag <- as.numeric(x$batch$bag)
   # Clean batch sample names
   x$batch$sample <- clean_samples(x$batch$sample)[["sample"]]
@@ -136,6 +140,8 @@ read_lims <- function(path) {
   x$benchtop$pesc_id <- gsub("dup|dp", "", x$benchtop$pesc_id, ignore.case = TRUE)
   x$benchtop$pesc_id <- gsub("tube|tube\\d+|tube \\d+", "", x$benchtop$pesc_id, ignore.case = TRUE)
   x$benchtop$pesc_id <- stringr::str_trim(x$benchtop$pesc_id)
+  # Clean start_date... sqlite plays nicer with string dates, so they are converted to chr
+  x$benchtop$start_date <- as.character(x$benchtop$start_date)
 
   # Miscellaneous data checks
   # Check that the bag #s in benchtop matches bench bag #s in batch
