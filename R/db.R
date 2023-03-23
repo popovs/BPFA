@@ -84,6 +84,7 @@ initialize_bpfa <- function() {
   # Now create the database
   db <- DBI::dbConnect(RSQLite::SQLite(), db_path)
 
+  # Create base tables
   DBI::dbWriteTable(db, "locations", bpfa::locations, overwrite = TRUE)
   DBI::dbWriteTable(db, "samples", bpfa::samples, overwrite = TRUE)
   DBI::dbCreateTable(db, "pesc_data", fields = c("pesc_id" = 'TEXT',
@@ -115,6 +116,20 @@ initialize_bpfa <- function() {
                                                   "lims_ref" = 'TEXT',
                                                   "date_collected" = 'TEXT',
                                                   "date_to_pesc" = 'TEXT'))
+
+  # Create views
+  # TODO: link this to sample + locations
+  DBI::dbExecute(db, "drop view if exists results;")
+  DBI::dbExecute(db, "create view results as
+               select d.pesc_id, d.lims_ref, b.bag,
+               b.sample, b.site, assay,
+               ng_per_dry, ng_whole
+               from pesc_data d left join pesc_batch b
+               on d.pesc_id = b.pesc_id;")
+
+  DBI::dbExecute(db, "drop view if exists samples_locs;")
+  DBI::dbExecute(db, "create view samples_locs as
+               select * from samples natural join locations;")
 
   DBI::dbDisconnect(db)
 
@@ -181,7 +196,7 @@ import_bpfa <- function(lims_out,
     message(paste("Database table", crayon::bold(darkcyan('pesc_data')), "updated with", nrow(ng_dat), "new records."))
   }
 
-  DBI::dbDisconnect()
+  DBI::dbDisconnect(bpfa)
 
 }
 
