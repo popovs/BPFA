@@ -1,0 +1,342 @@
+﻿sample_id,location_id,date_collected,time_collected,substrate,rain_yn,salinity_ppt,temperature_c,photo_no,sampler,comments
+1000,1,2021-04-28,,,,,,,SW,
+1001,2,2021-04-28,,,,,,,SW,
+1002,3,2021-04-28,,,,,,,SW,
+1003,4,2021-04-28,,,,,,,SW,
+1004,5,2021-04-28,,,,,,,SW,
+1005,6,2021-04-28,,,,,,,SW,
+1006,9,2021-04-28,,,,,,,SW,
+1007,7,2021-04-28,,,,,,,SW,
+1008,8,2021-04-28,,,,,,,SW,
+1009,10,2021-04-28,,,,,,,SW,
+1010,11,2021-04-28,,,,,,,SW,
+1011,12,2021-04-28,,,,,,,SW,
+1012,78,2021-05-10,,,,,,,SW,
+1013,79,2021-05-10,,,,,,,SW,
+1014,80,2021-05-10,,,,,,,SW,
+1015,81,2021-05-10,,,,,,,SW,
+1016,82,2021-05-10,,,,,,,SW,
+1017,83,2021-05-10,,,,,,,SW,
+1018,84,2021-05-10,,,,,,,SW,
+1019,63,2021-05-12,,,,,,,SW,
+1020,65,2021-05-12,,,,,,,SW,
+1021,66,2021-05-12,,,,,,,SW,
+1022,67,2021-05-12,,,,,,,SW,
+1023,68,2021-05-12,,,,,,,SW,
+1024,69,2021-05-12,,,,,,,SW,
+1025,70,2021-05-12,,,,,,,SW,
+1026,71,2021-05-12,,,,,,,SW,
+1027,72,2021-05-12,,,,,,,SW,
+1028,1,2021-07-22,,,,,,,SW,
+1029,2,2021-07-22,,,,,,,SW,
+1030,3,2021-07-22,,,,,,,SW,
+1031,5,2021-07-22,,,,,,,SW,
+1032,7,2021-07-22,,,,,,,SW,
+1033,8,2021-07-22,,,,,,,SW,
+1034,13,2021-07-22,,,,,,,SW,
+1035,14,2021-07-22,,,,,,,SW,
+1036,15,2021-07-22,,,,,,,SW,
+1037,16,2021-07-22,,,,,,,SW,
+1038,63,2021-08-07,,,,,,,SW,
+1039,64,2021-08-07,,,,,,,SW,
+1040,65,2021-08-07,,,,,,,SW,
+1041,66,2021-08-07,,,,,,,SW,
+1042,67,2021-08-07,,,,,,,SW,
+1043,73,2021-08-07,,,,,,,SW,
+1044,74,2021-08-07,,,,,,,SW,
+1045,75,2021-08-07,,,,,,,SW,
+1046,76,2021-08-07,,,,,,,SW,
+1047,1,2021-08-25,,,,,,,SW,
+1048,2,2021-08-25,,,,,,,SW,
+1049,4,2021-08-25,,,,,,,SW,
+1050,6,2021-08-25,,,,,,,SW,
+1051,9,2021-08-25,,,,,,,SW,
+1052,7,2021-08-25,,,,,,,SW,
+1053,17,2021-08-25,,,,,,,SW,
+1054,18,2021-08-25,,,,,,,SW,
+1055,19,2021-08-25,,,,,,,SW,
+1056,63,2021-08-30,,,,,,,SW,
+1057,64,2021-08-30,,,,,,,SW,
+1058,65,2021-08-30,,,,,,,SW,
+1059,66,2021-08-30,,,,,,,SW,
+1060,67,2021-08-30,,,,,,,SW,
+1061,77,2021-08-30,,,,,,,SW,
+1062,41,2020-08-29,6:43,"wet, loose mud",,,,,TD,No visible redox
+1063,42,2020-08-27,6:40,Fine silt,,,,,TD,Anoxic depth 2cm
+1064,43,2020-08-27,7:19,"Silt, more sand + gravel",,,,,TD,Ulva green algae. Anoxic depth not undefined
+1065,35,2020-08-27,9:30,"Firm silt, more clay",,,,,TD,Pronounced biofilm. Thin anoxic layer under biofilm. Irregular lack/brown patches under surface.
+1066,36,2020-08-27,8:51,Firm silt,,,,,TD,Ulva abundant. Gravelly at 20 cm depth. Redox not defined.  
+1067,37,2020-08-27,8:20,Silt,,,,,TD,Bark and ulva present
+1068,38,2020-08-30,8:27,Sandy,,,,,TD,No distinct redox boundary but some anoxic patche and rust-coloured patches. 
+1069,39,2020-08-30,8:32,Sandy,,,,,TD,No distinct redox boundary but some anoxic patche and rust-coloured patches. 
+1070,40,2020-08-28,8:30,Silty sand,,,,,TD,"Some rust colour under surface. No visible redox on some patches; on other, dark later ~2 mm under surface. Filamentous patches on surface.  "
+1071,47,2020-08-28,10:55,Spongy silt. Clay component (blue).,,,,,TD,Anoxic layer immediately below (~3mm). Scattered oysters.  
+1072,48,2020-08-28,9:00,Silty sand,,,,,TD,No visible anoxic. Ulva patches.
+1073,49,2020-08-28,8:00,Silt + sand,,,,,TD,No anoxic condition. Ulva patches. 
+1074,50,2020-08-28,9:20,"Silt, fine sand",,,,,TD,Anoxic right below surface. Oysters scattered. 
+1075,51,2020-08-28,10:00,Silt,,,,,TD,Anoxic ~4cm depth (patchy). Scattered oysters (near gravel patches with heavy oyster) 
+1076,52,2020-08-28,9:48,Silt + sand,,,,,TD,Anoxic patches. Some rust-coloured patches. 
+1077,44,2020-08-29,10:05,Very muddy,,,,,TD,Anoxic 3 mm below surface. ~2 cm black layer/brown patches. 150 m from saltmarsh edge. Shorebirds nearby in small flock. 
+1078,45,2020-08-29,9:00,Soft silt,,,,,TD,Ulva blades. Brown patches. Anoxic 4 mm below surface.
+1079,46,2020-08-30,9:34,"Sandy, waterlogged",,,,,TD,"No visible redox, but some darker patches below 5 cm. More clams and shell material than all other sites. "
+1080,41,2020-09-25,6:06,"wet, loose mud",,,,,TD,No visible redox
+1081,42,2020-09-25,6:13,Fine silt,,,,,TD,"Rainy weather, dark outside. "
+1082,43,2020-09-25,6:20,"Silt, sand, some gravel",,,,,TD,"Some algae. Dark, rainy. "
+1083,35,2020-09-25,7:15,Firm silt,,,,,TD,"Dark, rainy weather. "
+1084,36,2020-09-25,7:28,Firm silt,,,,,TD,Ulva abundant. Gravelly at 20 cm depth. Redox not defined.  
+1085,37,2020-09-25,6:31,Silt,,,,,TD,"Lots of bark/wood present, by log booms"
+1086,38,2020-09-25,7:08,Sandy,,,,,TD,No redox layer
+1087,39,2020-09-25,6:58,Sandy,,,,,TD,No redox
+1088,40,2020-09-25,6:47,Silt,,,,,TD,Filamentous algae patches on surface.  
+1089,47,2020-09-27,8:55,Silty & firm clay,,,,,TD,Oyster bed nearby
+1090,48,2020-09-27,9:12,Silty sand,,,,,TD,No visible anoxic. Ulva patches.
+1091,49,2020-09-27,9:25,Silt + sand,,,,,TD,No anoxic condition. Ulva patches. 
+1092,50,2020-09-26,8:18,"Silt, fine sand",,,,,TD,Anoxic below surface. Oysters scattered. 
+1093,51,2020-09-26,8:05,Silt,,,,,TD,Drak anoxic under surface (~4mm). Oysters nearby.
+1094,52,2020-09-26,7:53,Silt + sand,,,,,TD,Anoxic patches. Some rust-coloured patches. 
+1095,44,2020-09-26,8:37,Very muddy,,,,,TD,"Loose mud. Anoxic just below surface, patchy. Near saltmarsh edge."
+1096,45,2020-09-26,8:47,Soft silt,,,,,TD,"Similar substrate to S1, but less goopy"
+1097,46,2020-09-26,7:45,"Sandy, waterlogged",,,,,TD,"No redox boundary. Clams, shell and wood material on surface. "
+1098,57,2020-08-16,6:47,sandy,,,,,,
+1099,54,2020-08-16,6:53,sandy,,,,,,
+1100,53,2020-08-16,7:05,sandy/silty,,,,,,
+1101,56,2020-08-16,7:15,silty/sandy,,,,,,
+1102,55,2020-08-16,7:30,silty,,,,,,
+1103,62,2020-08-16,8:04,muddy w hummocks,,,,,,2 samples taken
+1104,58,2020-08-16,8:23,sandy mud,,,,,,firmer than 182; redox layer not black
+1105,61,2020-08-16,8:30,sandy mud,,,,,,similar to 111; grassy vegetation emerging
+1106,60,2020-08-16,8:41,sandy mud,,,,,,similar to 158; grassy vegetation emerging
+1107,59,2020-08-16,8:47,sandy mud,,,,,,similar to 158; golden brown colour; redox layer darker than 111
+1108,25,2020-08-17,7:03,filamentous algae,,,,,,
+1109,32,2020-08-17,7:09,filamentous algae w brown colour,,,,,,
+1110,30,2020-08-17,7:18,filamentous algae,,,,,,less fibrous than 177; redox layer 1mm from surface
+1111,33,2020-08-17,7:32,brown and green algae,,,,,,partial algal mud w some bare mud
+1112,29,2020-08-17,7:40,,,,,,,"emergent vegetation, 20%; redox layer > 10 mm"
+1113,31,2020-08-17,7:46,mud,,,,,,some Japonica eel grass
+1114,28,2020-08-17,8:00,mud,,,,,,just exposed from dropping tide
+1115,24,2020-08-17,8:10,mud,,,,,,lots of bioturbation; no distinct redox line
+1116,23,2020-08-17,8:15,mud,,,,,,bare mud
+1117,27,2020-08-17,8:25,mud,,,,,,"lots of bioturbation; redox line at 5 mm, some Z. japonica"
+1118,30,2020-09-06,11:07,,,,,,,visible dark anoxic layer
+1119,32,2020-09-06,11:18,,,,,,,green algae; dark anoxic layer
+1120,25,2020-09-06,11:28,,,,,,,green algae; dark anoxic layer
+1121,31,2020-09-06,12:04,mud,,,,,,redox layer grey; gradient
+1122,28,2020-09-06,12:14,mud,,,,,,
+1123,24,2020-09-06,12:22,loose; loamy,,,,,,more filamentous algae than 149; gulls abundant
+1124,27,2020-09-06,12:30,,,,,,,not filamentous; some spirulina
+1125,23,2020-09-06,12:38,,,,,,,dark anoxic
+1126,29,2020-09-06,12:52,mud,,,,,,grey indistinct redox layer; marsh grass patches
+1127,33,2020-09-06,13:00,silty,,,,,,brown and green algae; bare patches; grey anoxic layer
+1128,55,2020-09-07,11:42,mud,,,,,,just exposed from dropping tide
+1129,56,2020-09-07,11:59,mud,,,,,,just exposed from dropping tide
+1130,54,2020-09-07,12:19,sandy,,,,,,
+1131,57,2020-09-07,12:35,sandy,,,,,,
+1132,53,2020-09-07,12:43,mud,,,,,,hummocky; tops sampled; rust coloured surface; more silty than 155 + 152
+1133,62,2020-09-07,13:10,mud,,,,,,very goopy; dark anoxic under surface
+1134,61,2020-09-07,13:32,silty,,,,,,gray clayish anoxic layer; gulls nearby
+1135,60,2020-09-07,13:41,silty,,,,,,
+1136,59,2020-09-07,13:49,silty,,,,,,
+1137,58,2020-09-07,13:58,silty,,,,,,
+1138,25,2021-04-15,10:14,mud,,,,,,bare mud
+1139,32,2021-04-15,10:27,mud,,,,,,bare mud; test #1
+1140,30,2021-04-15,10:38,mud,,,,,,bare mud
+1141,33,2021-04-15,10:57,mud,,,,,,bare mud; test #2
+1142,29,2021-04-15,11:07,mud,,,,,,golden brown
+1143,31,2021-04-15,11:20,mud,,,,,,test #3
+1144,23,2021-04-15,11:40,mud,,,,,,"lots of standing water, some green algae on surface; peck marks"
+1145,24,2021-04-15,11:52,mud,,,,,,"still quite wet; green algae visible; very cohesive, some bioturbation"
+1146,27,2021-04-15,12:07,mud,,,,,,"green algae on surface; very cohevise biofilm, 'sticky'; test #4"
+1147,28,2021-04-15,12:20,mud,,,,,,standing water: test #5
+1148,57,2021-04-16,10:45,sandy,,,14,,,very sandy; some ponding water
+1149,54,2021-04-16,11:02,sandy,,,15.8,,,ridge/run structure; tops of ridges samples
+1150,53,2021-04-16,11:11,sandy/silty,,,15.9,,,test # 9; ridge/run structure; tops of ridges samples
+1151,56,2021-04-16,11:21,sandy/silty,,,14.9,,,standing water
+1152,55,2021-04-16,11:30,silty,,,13.8,,,test #10; lots of clam shells
+1153,62,2021-04-16,12:15,silty,,,14,,,very deep silt; light brown sheen on surface; test #7
+1154,58,2021-04-16,12:24,silty,,,14.9,,,"brown silt, similar to WP 182"
+1155,61,2021-04-16,12:30,silty,,,15.9,,,undulating mounds
+1156,60,2021-04-16,12:40,silty,,,15.9,,,similar substrate to WP 158
+1157,59,2021-04-16,12:45,silty,,,15,,,"soft brown silt w filamentous algae mounds; test #6, test #8"
+1158,25,2021-05-04,9:15,mud,,,,,,golden brown; lots of shorebird pecks
+1159,32,2021-05-04,9:30,mud,,,,,,golden brown; lots of shorebird pecks
+1160,30,2021-05-04,9:38,mud,,,,,,golden brown; lots of shorebird pecks
+1161,33,2021-05-04,9:50,mud,,,,,,golden brown; lots of shorebird pecks; some standing water nearby
+1162,29,2021-05-04,10:00,mud,,,,,,golden brown; lots of shorebird pecks; some standing water nearby; very adhesive
+1163,31,2021-05-04,10:15,"mud, silty",,,,,,grey brown colour; sandpipers actively feeding in the area
+1164,23,2021-05-04,10:22,mud,,,,,,emergent vegetation shoots
+1165,24,2021-05-04,10:35,mud,,,,,,"emergent vegetation shoots; standing water nearby, sandpipers actively feeding"
+1166,27,2021-05-04,10:49,mud,,,,,,bioturbation; emergent veg shoots; rough texture to sediment
+1167,28,2021-05-04,10:58,mud,,,,,,hummocky; tops sampled; standing water nearby; 250 sandpipers feeding nearby
+1168,57,2021-05-05,7:50,mud,,,,,,ridge/run structure; tops of ridges samples; brown colour in the valleys
+1169,54,2021-05-05,7:55,mud,,,,,,ridge/run structure; tops of ridges samples; brown colour in the valleys
+1170,53,2021-05-05,8:05,mud,,,,,,ridge/run structure; light brown colour
+1171,56,2021-05-05,8:15,mud,,,,,,light brown grey colour; lots of standing water nearby
+1172,55,2021-05-05,8:30,mud,,,,,,"yellow brown colour; thin redox layer, lots of clam shells"
+1173,62,2021-05-05,8:50,mud,,,,,,light brown colour; green brown globular algae
+1174,61,2021-05-05,9:04,mud,,,,,,light brown colour; undulating texture but not ridge/runnel
+1175,58,2021-05-05,9:09,mud,,,,,,light brown colour; undulating texture but not ridge/runnel
+1176,60,2021-05-05,9:18,mud/silty,,,,,,light brown/grey colour
+1177,59,2021-05-05,9:25,mud,,,,,,light brown/grey colour
+1178,25,2021-07-22,6:54,,,24.5,17.5,,,birds foraging nearby
+1179,32,2021-07-22,7:04,,,24.1,17.5,,,birds foraging nearby; white sheen on surface
+1180,30,2021-07-22,7:12,,,22.8,18.7,,,deep forest green color
+1181,33,2021-07-22,7:27,,,21.1,18.3,,,birds foraging nearby
+1182,29,2021-07-22,7:35,,,16.9,18.4,,,NO  SAMPLE TAKEN
+1183,31,2021-07-22,7:45,,,22.7,18.6,,,
+1184,28,2021-07-22,8:08,,,23.3,19.2,,,standing water nearby
+1185,24,2021-07-22,8:22,,,23.4,20.3,,,bioturbation
+1186,27,2021-07-22,8:30,,,23.7,20,,,
+1187,23,2021-07-22,8:40,,,23.6,19.8,,,standing water nearby
+1188,57,2021-07-23,7:57,,,11.3,20.4,,,
+1189,54,2021-07-23,8:06,,,12,19.4,,,
+1190,53,2021-07-23,8:17,,,11.1,20.2,,,
+1191,56,2021-07-23,8:28,,,11.2,20.2,,,
+1192,55,2021-07-23,8:41,,,12.4,20.5,,,
+1193,62,2021-07-23,9:13,,,11.7,20.9,,,
+1194,61,2021-07-23,9:31,,,11.7,21.8,,,photo taken; lots of filamentous algae; sparse grass
+1195,58,2021-07-23,9:40,,,12.3,21.4,,,eelgrass around station
+1196,59,2021-07-23,9:50,,,12,21.9,,,
+1197,60,2021-07-23,9:58,,,12.4,22.8,,,
+1198,25,2021-08-09,9:11,,,19.6,22.7,,,deep forest green color
+1199,32,2021-08-09,9:20,,,16.6,22.1,,,deep forest green color; very shallow anoxic later; PHOTO TAKEN
+1200,30,2021-08-09,9:28,,,15.5,20.9,,,deep forest green color
+1201,33,2021-08-09,9:43,,,7.7,21.5,,,olive green; lots of goose dropping; RAINING
+1202,29,2021-08-09,9:52,,,6.6,21.1,,,green colour; emergent veg; RAINING
+1203,31,2021-08-09,10:10,,,12.4,20,,,brown/green colour; lots of goose tracks; RAINING
+1204,28,2021-08-09,10:23,,,12.1,20.1,,,tan colour; shorebirds foraging nearby; eelgress shoots
+1205,24,2021-08-09,10:32,,,16.4,20.2,,,sandy colour; filamentuos algae; lots of bird tracks
+1206,27,2021-08-09,10:40,,,15.7,20.3,,,sandy colour; lots of standing water
+1207,23,2021-08-09,10:48,,,15.8,20.7,,,sandy colour; lots of standing water
+1208,57,2021-08-10,9:37,sand,,16.6,23.9,,,ridge/runnel; sandy; tide just receding
+1209,54,2021-08-10,9:42,sand,,16.9,25.6,,,
+1210,53,2021-08-10,9:54,sand,,16.5,26.6,,,standing water; sampling from raised mounds; ulva; shorebirds foraging nearby
+1211,56,2021-08-10,10:08,silt,,16.3,26.9,,,eelgrass around station
+1212,55,2021-08-10,10:20,silt,,13.3,27.4,,,yellow brown colour
+1213,62,2021-08-10,10:49,mud,,12.4,27.6,,,yellow brown colour; deep mud
+1214,61,2021-08-10,11:01,,,14.7,26.9,,,mounds with filamentous algae and eelgrass shoots; shorebird footprints
+1215,58,2021-08-10,11:09,,,13.7,27.7,,,yellow brown colour
+1216,60,2021-08-10,11:18,,,14.5,27.1,,,tan colour; eelgrass shoots
+1217,59,2021-08-10,11:26,,,13.3,28.2,,,tan colour; eelgrass shoots
+1218,33,2022-04-12,8:09,,,2.5,5.5,4059,,"rain/sleat, windy weather"
+1219,29,2022-04-12,8:20,,,3.3,6.1,4060,,
+1220,31,2022-04-12,8:31,,,6.6,6.7,4062,,brown olive tinge; lots of hungry dunlin!
+1221,28,2022-04-12,8:42,,,6.6,6.6,4063,,brown olive tinge
+1222,27,2022-04-12,8:52,,,6.3,6.8,4064,,"brown, more gelatinous texture"
+1223,24,2022-04-12,9:00,,,6.4,6.1,4066,,"brown, more gelatinous texture "
+1224,23,2022-04-12,9:07,,,6.6,6.7,4068,,"on a mound, algal orange brown film"
+1225,30,2022-04-12,9:26,,,5.9,6.8,4069,,"grey/brown, watery goop"
+1226,32,2022-04-12,9:33,,,5.9,6.6,4070,,"grey/brown, watery goop"
+1227,25,2022-04-12,9:42,,,5.6,6.5,4071,,raining a lot
+1228,22,2022-04-12,10:30,,,13.4,8.2,4072,,
+1229,21,2022-04-12,10:38,,,8.9,5.9,4073,,
+1230,26,2022-04-12,10:47,,,8.8,6.5,4074,,rusty coloration
+1231,20,2022-04-12,11:06,,,6.2,6.5,4076,,
+1232,34,2022-04-12,11:16,,,8.1,8.3,4079,,
+1233,100,2022-04-13,9:18,,,14,9.5,4081,,"mild, sunny with some clouds; rust coloured goop"
+1234,99,2022-04-13,9:28,,,15,10.1,4083,,"rust coloured goop (algae?), same as above"
+1235,91,2022-04-13,9:40,,,15.3,10.5,4085,,"rust coloured, water pockets"
+1236,86,2022-04-13,9:46,,,15.1,10.5,4086,,"uniform/like above, rust coloured, water pockets"
+1237,94,2022-04-13,9:50,,,15.4,11.9,4088,,"raw grey sediment, no obvious surface film"
+1238,92,2022-04-13,9:58,,,15.8,12.4,4089,,"raw grey sediment, bird footprints, small shells"
+1239,88,2022-04-13,10:05,,,16.3,12.6,4090/91,,rust coloured
+1240,98,2022-04-13,10:11,,,17.1,13,4093,,"rust coloured, water pockets"
+1241,97,2022-04-13,10:16,,,18,12.9,4094,,"rust coloured, water"
+1242,96,2022-04-13,10:26,,,18.3,14.6,4095,,"rust coloured, water"
+1243,95,2022-04-13,10:31,,,18.4,13.8,4097,,"rust coloured, water; lots of bird footprints"
+1244,93,2022-04-13,10:42,,,17.9,15.2,4098,,"rust coloured, water, shells. Yellow legs flew by!"
+1245,85,2022-04-13,10:50,,,14.5,14.7,4100,,"yellow tinge/rust coloured, less water around"
+1246,90,2022-04-13,10:56,,,18.1,15,4101,,"rust coloured, water pockets"
+1247,87,2022-04-13,11:02,,,17.3,16,4102,,"rust coloured, with more raw sediment throughout"
+1248,89,2022-04-13,11:10,,,17.7,16.4,4103,,rust coloured with raw sediment; waypoint adjusted to accommodate other fieldwork
+1249,57,2022-04-14,9:26,,,21.9,10.7,4107,,"sandy ridgy, no obvious microalgae"
+1250,54,2022-04-14,9:33,,,20.9,12,4108,,"sandy ridgy, some small brown detritus in valleys"
+1251,53,2022-04-14,9:45,,,21,13.4,4109,,"sandy, silty, cyanobacterial mat greeny brown/olive colour"
+1252,56,2022-04-14,9:55,,,21.1,15.1,4110,,"silty, gelatinous, cyanobacterial mat greeny brown/olive colour"
+1253,55,2022-04-14,10:05,,,21.3,15.4,4111,,"silty, ridgerunnel, grey brown with shallow anoxic layer beneath"
+1254,62,2022-04-14,10:38,,,19.6,16,4112,,"silty, grey brown sediment with filamentous algae, gelatinous"
+1255,58,2022-04-14,10:49,,,20,16.4,4113,,"silty, grey brown sediment with filamentous algae, gelatinous"
+1256,59,2022-04-14,11:01,,,19.4,17.3,4114,,"silty, grey brown sediment with filamentous algae, gelatinous"
+1257,60,2022-04-14,11:08,,,19.3,17.3,4115,,"silty, grey brown sediment with filamentous algae, gelatinous"
+1258,61,2022-04-14,11:19,,,19.8,17.5,4116,,"silty, grey brown sediment (with more grey), lots of filamentous algae, lots of geese footprints"
+1259,100,2022-04-26,8:30,,,16.7,10.5,4120,,grey/brown sediment; bird prints
+1260,99,2022-04-26,8:42,,,16.7,9.9,4121,,"algal growth, green"
+1261,91,2022-04-26,8:48,,,19.9,10,4122,,lots of bird prints
+1262,86,2022-04-26,8:55,,,20.4,10.3,4123,,
+1263,94,2022-04-26,8:59,,,20.4,10.4,4124,,"grey sediment, no algae"
+1264,92,2022-04-26,9:06,,,20.6,10.5,4125,,only grey sediment
+1265,88,2022-04-26,9:14,,,20.6,10.6,4126,,deeper puddles; algae and grey sediment
+1266,98,2022-04-26,9:20,,,20.8,10.9,4127,,mix of brown and grey sediment
+1267,97,2022-04-26,9:27,,,21.4,11.4,4128,,"grey sediment, soft"
+1268,96,2022-04-26,9:37,,,20.6,13.2,4129,,lots of algae; gelatinous grey sediment
+1269,95,2022-04-26,9:42,,,21.8,14.2,4130,,rust coloured film; dunlin feeding
+1270,93,2022-04-26,9:57,,,21.5,14.1,4131,,"grey sediments, worm like castings"
+1271,85,2022-04-26,10:01,,,18.9,15.1,4132,,"lots of algae, rust film"
+1272,90,2022-04-26,10:07,,,19.5,14.6,4133,,"grey sediment, thin film"
+1273,87,2022-04-26,10:14,,,18.2,15.2,4134,,"on mound, black sediment visible"
+1274,89,2022-04-26,10:20,,,21.7,16.2,4135,,"grey sediment, filament algae"
+1275,33,2022-04-27,8:44,,,14,11.8,4136,,grey goop! Runny consistency
+1276,29,2022-04-27,8:51,,,14.5,13.1,4137,,grey goop! Runny consistency
+1277,31,2022-04-27,9:00,,,16.7,15.4,4138,,grey goop! Runny consistency
+1278,28,2022-04-27,9:09,,,16.7,15.6,4139,,"grey goop, runny consistency; some green filamentous algae/plants"
+1279,27,2022-04-27,9:21,,,17.6,15.5,4140,,"grey goop, runny consistency; some green filamentous algae/plants; saw ~ 10 Caspian Terns"
+1280,24,2022-04-27,9:29,,,17,16.6,4141,,"dry grey goop, green algae/plants; bird footprints"
+1281,23,2022-04-27,9:38,,,18.4,17,4142,,"dry, gelatinous, grey goop, lots of sediment mounds; some bird footprints"
+1282,25,2022-04-27,9:59,,,23,16.8,4143,,"grey/green goop, gelatinous, worm markings"
+1283,32,2022-04-27,10:08,,,22.4,14.2,4144,,"grey/green goop, gelatinous; our footprints still here from last sample"
+1284,30,2022-04-27,10:14,,,20.3,15.8,4145,,"grey/green with slight rust colour, gelatinous and thick; shells"
+1285,21,2022-04-27,11:12,,,27.2,20.3,4146,,"grey/green with slight rust colour, runnier"
+1286,26,2022-04-27,11:22,,,28,21.9,4151,,"grey/green with slight rust colour, runnier"
+1287,22,2022-04-27,11:31,,,27.6,21.6,4153,,"grey/green with slight rust colour, runnier"
+1288,20,2022-04-27,11:44,,,28.5,22.3,4154,,"rusty red colour, gelatinous"
+1289,34,2022-04-27,11:54,,,26.3,21.5,4155,,"rusty red colour, gelatinous; shells"
+1290,57,2022-04-28,9:28,,,22.3,15.4,4156,,"sandy, mix of lots of coarse grey and a little of fine brown sediment"
+1291,54,2022-04-28,9:35,,,22,14.7,4157,,"sandy, coarse grey and rust coloured film"
+1292,53,2022-04-28,9:44,,,20.1,16.3,4158,,"gelatinous, fine grey-green goop with rust coloured film and fibrous algae; geese prints"
+1293,56,2022-04-28,9:54,,,19.9,17.5,4159,,fine grey-green gelatinous goop; rust/red filament/fibrous algae
+1294,55,2022-04-28,10:04,,,23.5,18.6,4160,,"fine green-grey sediment, gooey"
+1295,62,2022-04-28,10:30,,,20.6,19.5,4162,,"very fine, soft, grey/green sediment"
+1296,61,2022-04-28,10:43,,,21.1,20.6,4163,,"very fine, soft, grey/green sediment"
+1297,58,2022-04-28,10:51,,,21,19.9,4164,,"very fine, soft, grey/green sediment"
+1298,59,2022-04-28,11:03,,,20.4,21.3,4165,,"very fine, soft, grey/green sediment"
+1299,60,2022-04-28,11:10,,,20.5,21,4166,,"very fine, soft, grey/green sediment; no sign of bird activity"
+1300,33,2022-05-10,7:39,,,5.9,11,4167,,"olive brown, smooth texture, small floculants"
+1301,29,2022-05-10,7:46,,,6,11.9,4169,,"olive brown, smooth texture, small floculants"
+1302,31,2022-05-10,7:59,,,9.2,12.7,4171,,"olive brown, smooth texture, small floculants"
+1303,28,2022-05-10,8:07,,,8.7,13.2,4172,,"olive brown, dimpled texture"
+1304,24,2022-05-10,8:19,,,12.1,12.8,4173,,"olive grey, standing water, hummocky"
+1305,27,2022-05-10,8:28,,,12.7,14.7,4174,,"olive grey, standing water, eelgrass shoots"
+1306,23,2022-05-10,8:34,,,10.2,13.8,4175,,"rust color, sticky, shallow redox layer"
+1307,25,2022-05-10,8:57,,,13.1,17.1,4176,,"rust color, sticky, shallow redox layer"
+1308,32,2022-05-10,9:04,,,10.8,17,4177,,"olive brown, goopy, shallow redox"
+1309,30,2022-05-10,9:11,,,8,17.1,4178,,
+1310,21,2022-05-10,10:05,,,14.2,16.7,4179,,"red/brown colur, snails present"
+1311,26,2022-05-10,10:13,,,16.5,17.7,4180,,"red/brown colur, snails present, goopey"
+1312,22,2022-05-10,10:24,,,14.8,18.1,4183,,"olive/brown colour, brown floculants, snails present"
+1313,20,2022-05-10,10:39,,,14,17.6,4186,,"olive/brown colour, rust underneath, brown floculants"
+1314,34,2022-05-10,10:50,,,15,21.7,4187,,"olive/brown colour, rust underneath, brown floculants, duck prints"
+1315,100,2022-05-11,8:06,,,7.9,12.1,4191,,"olive/brown, undulating surface, brown floculants"
+1316,99,2022-05-11,8:12,,,8.5,12.4,4192,,"olive/brown, undulating surface, brown floculants"
+1317,91,2022-05-11,8:18,,,9.7,12.5,4193,,"olive/brown, undulating surface, brown floculants"
+1318,86,2022-05-11,8:22,,,8.5,12.5,4194,,"olive/brown, undulating surface, brown floculants"
+1319,94,2022-05-11,8:25,,,9.3,13.9,4195,,"olive/brown, undulating surface, brown floculants, rusty underneath"
+1320,92,2022-05-11,8:29,,,9,13,4196,,"olive/brown, undulating surface, brown floculants, rusty underneath, worm casings"
+1321,88,2022-05-11,8:37,,,9.8,12.7,4197,,"olive/brown, undulating surface, brown floculants"
+1322,98,2022-05-11,8:41,,,9.8,12.5,4198,,"olive/brown, undulating surface, brown floculants, eelgrass shoots"
+1323,97,2022-05-11,8:46,,,10.7,12,4199,,"olive/brown, undulating surface, brown floculants, eelgrass shoots"
+1324,96,2022-05-11,8:53,,,11.9,12.5,4200,,"olive/brown, undulating surface, brown floculants, eelgrass shoots, standing water"
+1325,95,2022-05-11,8:57,,,11.3,12.3,4201,,"olive/brown, undulating surface, brown floculants, eelgrass shoots"
+1326,93,2022-05-11,9:10,,,9.8,12.5,4202,,"olive/brown, undulating surface, brown floculants, eelgrass shoots, clams shells"
+1327,85,2022-05-11,9:14,,,10.8,12.7,4203,,"olive/brown, undulating surface, brown floculants, eelgrass shoots, clams shells"
+1328,90,2022-05-11,9:22,,,10.8,12.4,4204,,"olive/brown, undulating surface, brown floculants, eelgrass shoots, clams shells"
+1329,87,2022-05-11,9:28,,,9.1,12.3,4205,,"olive/brown, undulating surface, brown floculants, eelgrass shoots, clams shells"
+1330,89,2022-05-11,9:33,,,9.7,12.4,4206,,"olive/brown, undulating surface, brown floculants, eelgrass shoots, clams shells, bulrush bulbs"
+1331,57,2022-05-12,8:33,,1,15.3,11.9,4207,,"rainy and windy! Coarse, grey, sandy sediment, light/grey/rusty film in valleys"
+1332,54,2022-05-12,8:40,,1,15.4,11.1,4208,,"rainy and windy! Coarse, grey, sandy sediment, light/grey/rusty film in valleys"
+1333,53,2022-05-12,8:47,,1,14,10.4,4210,,"light tan, fine sediment, eel grass shoots, goopy"
+1334,56,2022-05-12,8:57,,1,13.3,10.6,4211,,"light tan, fine sediment, eel grass shoots, goopy"
+1335,55,2022-05-12,9:05,,1,15,10.3,4212,,"ridge structure, grey/rusty, shallow redox/black layer underneath, lots of woody debris"
+1336,62,2022-05-12,9:33,,1,8.8,11.1,4216,,"fine tan sediment, goopy, duck footprints"
+1337,58,2022-05-12,9:46,,1,8.6,10.9,4217,,"fine tan sediment, goopy, duck footprints"
+1338,59,2022-05-12,9:56,,1,9.1,11,4219,,"fine tan sediment, goopy, standing water"
+1339,60,2022-05-12,10:02,,1,8.9,10.8,4220,,"fine tan sediment, goopy, standing water"
+1340,61,2022-05-12,10:11,,1,9.1,11.3,4222,,"tan/grey sediment, with ridges"
