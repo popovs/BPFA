@@ -313,14 +313,16 @@ connect_bpfa <- function() {
 #' @describeIn update_samples Update sample information (e.g., sampling date, sampler, weather conditions)
 update_samples <- function() {
   db <- suppressMessages(connect_bpfa())
-  DBI::dbWriteTable(db, "samples", bpfa::samples, overwrite = TRUE)
+  data(samples)
+  DBI::dbWriteTable(db, "samples", samples, overwrite = TRUE)
   DBI::dbDisconnect(db)
 }
 
 #' @describeIn update_samples Update sampling locations (lat/long)
 update_locations <- function() {
   db <- suppressMessages(connect_bpfa())
-  DBI::dbWriteTable(db, "locations", bpfa::locations, overwrite = TRUE)
+  data(locations)
+  DBI::dbWriteTable(db, "locations", locations, overwrite = TRUE)
   DBI::dbDisconnect(db)
 }
 
