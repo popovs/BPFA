@@ -294,3 +294,38 @@ connect_bpfa <- function() {
   message("Don't forget to run DBI::dbDisconnect(<database object>) when you are done!")
   DBI::dbConnect(RSQLite::SQLite(), db_path)
 }
+
+
+#' Update BPFA sample metadata
+#'
+#' @description Sometimes the metadata for samples, e.g. locations or sampling dates,
+#' needs to be updated in the database. If the metadata bundled with the package
+#' has been updated in a new package release, these functions can be used to
+#' quickly write those updates to your local copy of the BPFA database.
+#'
+#' Note that sample locations are stored in a seperate table from the sample
+#' information itself, because multiple samples are collected repeatedly from the
+#' sample field sites and waypoints.
+#'
+#' @return
+#' @export
+#'
+#' @describeIn update_samples Update sample information (e.g., sampling date, sampler, weather conditions)
+update_samples <- function() {
+  db <- suppressMessages(connect_bpfa())
+  DBI::dbWriteTable(db, "samples", bpfa::samples, overwrite = TRUE)
+  DBI::dbDisconnect(db)
+}
+
+#' @describeIn update_samples Update sampling locations (lat/long)
+update_locations <- function() {
+  db <- suppressMessages(connect_bpfa())
+  DBI::dbWriteTable(db, "locations", bpfa::locations, overwrite = TRUE)
+  DBI::dbDisconnect(db)
+}
+
+#' @describeIn update_samples Update both sample information and sample locations
+update_metadata <- function() {
+  update_samples()
+  update_locations()
+}
