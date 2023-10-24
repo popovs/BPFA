@@ -192,6 +192,45 @@ initialize_bpfa <- function() {
 
 }
 
+#' Save a copy of the BPFA database to your local machine
+#'
+#' This function will update your local BPFA database with a new copy of the database.
+#' For example, if you were emailed a copy of the database with updated data, you would
+#' use `copy_bpfa()` to update your local database with the copy you received via email.
+#' Your local BPFA database (the one that the R package `{bpfa}` uses) will then be updated
+#' and usable with any `{bpfa}` package functions.
+#'
+#' @param path A file path to the copy of the database you wish to save.
+#'
+#' @examples \dontrun{
+#' copy_bpfa("downloads/new_bpfa.db")}
+copy_bpfa <- function(path) {
+  # Some health checks first
+  stopifnot("The provided path must be to an SQLite database, with a file extension ending in '.db'." = grepl(".db$", path))
+  stopifnot("The provided path must be a valid filepath." = file.exists(path))
+
+  db_dir <- bpfa_dir()
+  db_path <- file.path(db_dir, "bpfa.db")
+  create_backup <- ifelse(file.exists(db_path), TRUE, FALSE)
+
+  if (create_backup) {
+    # Create backups folder
+    dir.create(file.path(db_dir, "Previous db backups"), showWarnings = FALSE)
+    # Rename old db to add datetime; copy & move to backup folder
+    st <- format(Sys.time(), "%Y%m%d_%H%M") # get system time
+    fs::file_move(db_path, paste0(db_dir, "/Previous db backups/", "bpfa_", st, ".db"))
+    # Move db to be copied ('path') into pathdir_dir() ('db_dir')
+    fs::file_copy(path, db_path)
+    message("📥 The database file in ", sQuote(crayon::bold$underline(paste(path))), " was successfully copied to the `bpfa` package. \n🗃 The previous copy of the database has been moved into the ", sQuote(crayon::bold$underline(paste0(db_dir, '/Previous db backups'))), " directory.")
+  } else {
+    # Move db to be copied ('path') into pathdir_dir() ('db_dir')
+    dir.create(file.path(db_dir), showWarnings = FALSE)
+    fs::file_copy(path, db_path)
+    message("📥 The database file in ", sQuote(crayon::bold$underline(paste(path))), " was successfully copied to the `bpfa` package.")
+  }
+
+}
+
 #' Import processed PESC data into the BPFA database
 #'
 #' After data are read in and cleaned by the `read_lims` function,
