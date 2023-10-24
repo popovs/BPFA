@@ -42,6 +42,19 @@ Or:
 bpfa_dir()
 ```
 
+### Updating your local copy
+
+Let's say you've been emailed a copy of the BPFA database with some data fixes or with the latest new data updates. Copying it over to the right spot on your local machine so that the `{bpfa}` package can use it is easy. Just provide the file path where you saved the fresh copy of the database and the `copy_bpfa()` function will copy it so the R package can use it:
+
+```{r}
+# Save a copy of the BPFA database to make it usable for the {bpfa} R package
+# Essentially, what this does is copy over the database that has been emailed to you
+# to the `bpfa_dir()` location.
+
+copy_bpfa("downloads/path/to/new/bpfa.db")
+```
+
+
 ### Connecting to the database
 
 Once you have created the database, you can connect to it to explore the data or add new data.
