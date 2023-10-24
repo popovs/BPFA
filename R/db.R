@@ -202,6 +202,8 @@ initialize_bpfa <- function() {
 #'
 #' @param path A file path to the copy of the database you wish to save.
 #'
+#' @export
+#'
 #' @examples \dontrun{
 #' copy_bpfa("downloads/new_bpfa.db")}
 copy_bpfa <- function(path) {
