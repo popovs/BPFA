@@ -1,7 +1,7 @@
 Package: bpfa
 Type: Package
 Title: Create and Maintain a Database of PESC Fatty Acid Data
-Version: 0.0.1
+Version: 0.0.2
 Author: Sarah Popov
 Maintainer: Sarah Popov <sarah.popov@mail.mcgill.ca>
 Description: bpfa allows you to initialize a SQLite database on your
