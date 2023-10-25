@@ -129,11 +129,17 @@ read_lims <- function(path) {
   x$batch$site <- ifelse(x$batch$ms, "Maltby Slough", x$batch$site)
   x$batch <- dplyr::select(x$batch, -jb, -ms)
 
-  # Clean benchtop tab
+  # BENCHTOP TAB ###
+  # TODO: this will fail if the column names ever move around/change,
+  # but it was discussed with the data provider to keep them unchanged.
   names(x$benchtop) <- c("bag", "pesc_id", "tube_g", "tube_sample_wet_g", "wet_g", "wet_extracted_g",
                          "dilution_solution_ml", "tube_sample_dry_g", "dry_g_per_ml", "dried_g",
                          "prct_dry_weight", "start_date", "analyst_initials", "notes")
-  x$benchtop <- x$benchtop[!is.na(x$benchtop$pesc_id),]
+  # find first row without sample ID and cut out anything past that
+  #x$benchtop <- x$benchtop[!is.na(x$benchtop$pesc_id),]
+  end_benchtop <- as.numeric(row.names(x$benchtop[is.na(x$benchtop$pesc_id),])[1]) - 1
+  if (!is.na(end_benchtop)) x$benchtop <- x$benchtop[1:end_benchtop,]
+  # Mutate numeric cols
   x$benchtop[,-c(2,12,13,14)] <- dplyr::mutate_all(x$benchtop[,-c(2,12,13,14)], as.numeric)
   # Extract tube number, if present
   x$benchtop$tube_no <- stringr::str_extract(tolower(x$benchtop$pesc_id), "tube\\d+|tube\\s+\\d+")
