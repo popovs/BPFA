@@ -69,10 +69,10 @@ initialize_bpfa <- function() {
 
     if (overwrite == 1) {
       # Create backups folder
-      dir.create(file.path(db_dir, "backups"), showWarnings = FALSE)
+      dir.create(file.path(db_dir, "Previous db backups"), showWarnings = FALSE)
       # Rename old db to add datetime; copy & move to backup folder
       st <- format(Sys.time(), "%Y%m%d_%H%M") # get system time
-      fs::file_move(db_path, paste0(db_dir, "/backups/", "bpfa_", st, ".db"))
+      fs::file_move(db_path, paste0(db_dir, "/Previous db backups/", "bpfa_", st, ".db"))
     } else if (overwrite == 2) {
       fs::file_delete(db_path)
     }
@@ -185,7 +185,7 @@ initialize_bpfa <- function() {
   if (new_db) {
     message(paste0("🗂 Congratulations, you've created your first copy of the BPFA database at ", crayon::bold$underline(db_path), "!"))
   } else if (new_db == FALSE & overwrite == 1) {
-    message(paste0("📥 A new copy of the BPFA database has been created at ", crayon::bold$underline(db_path), "!\n🗃 The old copy of the database has been moved into the ", sQuote(crayon::bold$underline(paste0(db_dir, '/backups'))), " directory."))
+    message(paste0("📥 A new copy of the BPFA database has been created at ", crayon::bold$underline(db_path), "!\n🗃 The old copy of the database has been moved into the ", sQuote(crayon::bold$underline(paste0(db_dir, '/Previous db backups'))), " directory."))
   } else {
     message(paste0("📥 A new copy of the BPFA database has been created at ", crayon::bold$underline(db_path), "!\n✏️ A backup copy of the previous database was ", crayon::bold$italic('not'), " saved. Previous data was overwritten."))
   }
