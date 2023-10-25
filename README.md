@@ -4,6 +4,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+**B**runswick **P**oint **F**atty **A**cid project
+
 Quick and easy data management for the ECCC-PESC coastal mud fatty acid analysis project.
 
 ## Installation
@@ -18,11 +20,12 @@ devtools::install_github("popovs/BPFA")
 ## Usage
 
 When you first load the package, you will need to create a fresh copy of the database on your local machine before proceeding.
+You only need to initialize the database *once* to set it up.
 
 ```r
 # Load package and initialize db
 library(bpfa)
-initialize_bpfa() # Create a new copy of the database!
+initialize_bpfa() # Create a new copy of the database! Only run this once.
 ```
 
 You can check the path where the database file was created with `bpfa_dir()`. On a Mac, it will be something like:
@@ -31,11 +34,11 @@ You can check the path where the database file was created with `bpfa_dir()`. On
 
 While on PC, it will be either:
 
-`C:\Documents and Settings\<User>\Application Data\Local Settings\popovs\BPFA`
+`C:\Documents and Settings\<User>\Application Data\Local Settings\<User>\BPFA`
 
 Or:
 
-`C:\Documents and Settings\<User>\Application Data\popovs\BPFA`
+`C:\Documents and Settings\<User>\Application Data\<User>\BPFA`
 
 ```r
 # Check the file path where db was created
