@@ -12,7 +12,7 @@ read_lims <- function(path) {
   stopifnot("File path provided does not end in .xlsx." = grepl(".xlsx$", path) == TRUE)
   sheets <- readxl::excel_sheets(path)
   stopifnot("File has more than 4 tabs. Do you need to merge benchtop sheets together?" = length(sheets) <= 4)
-  x <- lapply(sheets, function(j) readxl::read_excel(path, sheet = j, .name_repair = "minimal"))
+  x <- lapply(sheets, function(j) readxl::read_excel(path, sheet = j, .name_repair = "minimal", na = c("NA", "na", "N/A", "n/a", "#N/A", "", " ", "-")))
   x <- lapply(x, as.data.frame)
   names(x) <- c("dry", "whole", "benchtop", "batch")
 
