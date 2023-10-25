@@ -80,7 +80,8 @@ clean_samples <- function(x) {
   x$ms <- grepl("MS", x$sample)
 
   # Extract A-Z characters only for the site
-  x$site <- gsub("[^A-Za-z ]", "", x$sample)
+  x$site <- gsub("\\w*\\d\\-\\w*|\\w*\\d\\w*", "", x$sample) # Match any whole words without digits or dashes in them
+  #x$site <- gsub("[^A-Za-z ]", "", x$sample)
   x$site <- bpfa::clean_locs(x$site)
 
   # Go through cleaning steps to pull out the sample number alone
