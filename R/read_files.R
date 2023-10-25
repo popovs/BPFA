@@ -125,8 +125,8 @@ read_lims <- function(path) {
   }
 
   # Update batch sites
-  x$batch$site <- ifelse(x$batch$jb, "Jensen's Bay", x$batch$site)
-  x$batch$site <- ifelse(x$batch$ms, "Maltby Slough", x$batch$site)
+  x$batch$site <- ifelse((x$batch$jb & !is.na(x$batch$jb)), "Jensen's Bay", x$batch$site)
+  x$batch$site <- ifelse((x$batch$ms & !is.na(x$batch$ms)), "Maltby Slough", x$batch$site)
   x$batch <- dplyr::select(x$batch, -jb, -ms)
 
   # BENCHTOP TAB ###
@@ -136,15 +136,16 @@ read_lims <- function(path) {
                          "dilution_solution_ml", "tube_sample_dry_g", "dry_g_per_ml", "dried_g",
                          "prct_dry_weight", "start_date", "analyst_initials", "notes")
   # find first row without sample ID and cut out anything past that
-  #x$benchtop <- x$benchtop[!is.na(x$benchtop$pesc_id),]
   end_benchtop <- as.numeric(row.names(x$benchtop[is.na(x$benchtop$pesc_id),])[1]) - 1
   if (!is.na(end_benchtop)) x$benchtop <- x$benchtop[1:end_benchtop,]
+  x$benchtop <- x$benchtop[!is.na(x$benchtop$pesc_id),]
   # Mutate numeric cols
   x$benchtop[,-c(2,12,13,14)] <- dplyr::mutate_all(x$benchtop[,-c(2,12,13,14)], as.numeric)
   # Extract tube number, if present
-  x$benchtop$tube_no <- stringr::str_extract(tolower(x$benchtop$pesc_id), "tube\\d+|tube\\s+\\d+")
-  x$benchtop$tube_no <- as.numeric(stringr::str_extract(x$benchtop$tube_no, '\\d'))
-  x$benchtop$tube_no <- ifelse(is.na(x$benchtop$tube_no), 1, x$benchtop$tube_no)
+  # TODO: possibly eliminate this altogether, not necessary to keep subsamples in this table
+  #x$benchtop$tube_no <- stringr::str_extract(tolower(x$benchtop$pesc_id), "tube\\d+|tube\\s+\\d+")
+  #x$benchtop$tube_no <- as.numeric(stringr::str_extract(x$benchtop$tube_no, '\\d'))
+  #x$benchtop$tube_no <- ifelse(is.na(x$benchtop$tube_no), 1, x$benchtop$tube_no)
   # Cleanup pesc_id
   x$benchtop$pesc_id <- gsub("dup|dp", "", x$benchtop$pesc_id, ignore.case = TRUE)
   x$benchtop$pesc_id <- gsub("tube|tube\\d+|tube\\s+\\d+", "", x$benchtop$pesc_id, ignore.case = TRUE)
@@ -166,7 +167,7 @@ read_lims <- function(path) {
   x$batch <- dplyr::arrange(x$batch, pesc_id)
   # bench
   #x$benchtop <- dplyr::select(x$benchtop, -bag)
-  x$benchtop <- dplyr::select(x$benchtop, pesc_id, bag, tube_no, tube_g:notes)
+  x$benchtop <- dplyr::select(x$benchtop, pesc_id, bag, tube_g:notes) # removed 'tube_no'
   # ng dat
   ng_dat <- dplyr::select(ng_dat, pesc_id, replicate, lims_sample:lims_ref)
 
