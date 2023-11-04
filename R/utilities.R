@@ -85,7 +85,7 @@ clean_samples <- function(x) {
   x$site <- bpfa::clean_locs(x$site)
 
   # Go through cleaning steps to pull out the sample number alone
-  x$sample <- gsub("BN|JB|MS|TOFINO|BOUNDARY BAY|IONA|IONA NORTH|IONA SOUTH|ROBERTS BANK|ROBERT'S BANK|STURGEON BANK|STURGEON BANKS|JENSENS BAY|JENSEN'S BAY|BRUNSWICK POINT|COWICHAN", "", x$sample)
+  x$sample <- gsub("BN|JB|MS|TOFINO|BOUNDARY BAY|IONA|IONA NORTH|IONA SOUTH|FORESHORE|ROBERTS BANK|ROBERT'S BANK|STURGEON BANK|STURGEON BANKS|JENSENS BAY|JENSEN'S BAY|BRUNSWICK POINT|COWICHAN", "", x$sample)
 
   # Remove year
   x$sample <- gsub("2020|2021|2022", "", x$sample)
