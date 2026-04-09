@@ -13,7 +13,7 @@ update_locations()
 update_metadata()
 }
 \value{
-
+Invisible
 }
 \description{
 Sometimes the metadata for samples, e.g. locations or sampling dates,
@@ -27,10 +27,10 @@ sample field sites and waypoints.
 }
 \section{Functions}{
 \itemize{
-\item \code{update_samples}: Update sample information (e.g., sampling date, sampler, weather conditions)
+\item \code{update_samples()}: Update sample information (e.g., sampling date, sampler, weather conditions)
 
-\item \code{update_locations}: Update sampling locations (lat/long)
+\item \code{update_locations()}: Update sampling locations (lat/long)
 
-\item \code{update_metadata}: Update both sample information and sample locations
+\item \code{update_metadata()}: Update both sample information and sample locations
+
 }}
-

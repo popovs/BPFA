@@ -348,7 +348,7 @@ connect_bpfa <- function() {
 #' information itself, because multiple samples are collected repeatedly from the
 #' sample field sites and waypoints.
 #'
-#' @return
+#' @return Invisible
 #' @export
 #'
 #' @describeIn update_samples Update sample information (e.g., sampling date, sampler, weather conditions)
