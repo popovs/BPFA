@@ -14,7 +14,14 @@ read_lims <- function(path) {
   stopifnot("File has more than 4 tabs. Do you need to merge benchtop sheets together?" = length(sheets) <= 4)
   x <- lapply(sheets, function(j) readxl::read_excel(path, sheet = j, .name_repair = "minimal", na = c("NA", "na", "N/A", "n/a", "#N/A", "", " ", "-")))
   x <- lapply(x, as.data.frame)
-  names(x) <- c("dry", "whole", "benchtop", "batch")
+
+  # Clean up df names
+  sheets[grep("dry", tolower(sheets))] <- "dry"
+  sheets[grep("whole", tolower(sheets))] <- "whole"
+  sheets[grep("benchtop", tolower(sheets))] <- "benchtop"
+  sheets[grep("batch", tolower(sheets))] <- "batch"
+  # Assign sheet names to df
+  names(x) <- sheets
 
   # Remove empty rows
   x <- lapply(x, janitor::remove_empty, "rows")
