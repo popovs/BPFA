@@ -57,6 +57,8 @@ read_lims <- function(path) {
   x$batch <- x$batch[-(1:grep("site|location", x$batch[[loc_col]], ignore.case = TRUE) - 1), loc_col:pesc_col]
   names(x$batch) <- x$batch[1,] # rename header
   x$batch <- x$batch[-1,] # remove first row
+  x$batch <- x$batch[complete.cases(x$batch), ] # keep only complete records
+
   # Pull out and clean up batch names
   batch_names <- janitor::make_clean_names(names(x$batch))
   batch_names <- gsub("point", "sample", batch_names)
@@ -140,17 +142,19 @@ read_lims <- function(path) {
   # This won't be perfect but it should match most of them
   ng_samples <- unique(ng_dat[,c("pesc_id", "bag", "sample", "lims_ref", "jb", "ms")])
   # Throw warning if # of samples detected in ng_dat don't match # of samples in batch tab
-  if (nrow(ng_samples) != nrow(x$batch)) warning("The number of unique samples detected in the 'ng per g dry' and 'ng whole sample' tabs (n = ", nrow(ng_samples), ") does not match the number of samples in the 'batch' tab (n = ", nrow(x$batch), ").")
+  if (nrow(ng_samples) != nrow(x$batch)) warning("The number of unique samples detected in the 'ng per g dry' and 'ng whole sample' tabs (n = ", nrow(ng_samples), ") does not match the number of samples in the 'batch' tab (n = ", nrow(x$batch), "). \nThis could be due to samples that were lost during processing.")
   # Now merge
-  x$batch <- unique(merge(x$batch, ng_samples, by = c("sample", "bag", "lims_ref"), all = TRUE))
+  batch2 <- unique(merge(x$batch, ng_samples, by = c("sample", "bag", "lims_ref"), all = TRUE))
   # Throw warning if any PESC IDs are duplicated
   if (any(plyr::count(x$batch[["pesc_id"]][!is.na(x$batch$pesc_id)])[["freq"]] > 1)) {
     warning("Duplicated PESC IDs: ", paste(plyr::count(x$batch$pesc_id)[plyr::count(x$batch$pesc_id)[2] > 1,"x"], collapse = ", "))
   }
   # Throw warning if merge went wonky
-  if (nrow(x$batch) != nrow(ng_samples)) {
-    warning("Merging sample info from the 'batch' tab to the sample info in the data tabs resulted in extra records.")
+  if (nrow(batch2) != nrow(x$batch)) {
+    warning("There are discrepancies between sample names in the data tabs and batch tab. Merging sample info resulted in extra records.")
   }
+
+  x$batch <- batch2
 
   # Update batch sites
   x$batch$site <- ifelse((x$batch$jb & !is.na(x$batch$jb)), "Jensen's Bay", x$batch$site)
