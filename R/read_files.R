@@ -74,7 +74,11 @@ read_lims <- function(path) {
   x$batch$date_to_pesc <- janitor::excel_numeric_to_date(as.numeric(x$batch$date_to_pesc))
   x$batch$date_to_pesc <- as.character(x$batch$date_to_pesc)
   # Clean batch numerics
-  x$batch$bag <- as.numeric(x$batch$bag)
+  if (is.null(x$batch$bag)) {
+    x$batch$bag <- NA
+  } else {
+    as.numeric(x$batch$bag)
+  }
   # Clean batch sample names
   x$batch$sample <- clean_samples(x$batch$sample)[["sample"]]
   # Add LIMS ref column so we can easily reference the original file if needed
@@ -139,9 +143,26 @@ read_lims <- function(path) {
   # BENCHTOP TAB ###
   # TODO: this will fail if the column names ever move around/change,
   # but it was discussed with the data provider to keep them unchanged.
-  names(x$benchtop) <- c("bag", "pesc_id", "tube_g", "tube_sample_wet_g", "wet_g", "wet_extracted_g",
-                         "dilution_solution_ml", "tube_sample_dry_g", "dry_g_per_ml", "dried_g",
-                         "prct_dry_weight", "start_date", "analyst_initials", "notes")
+  # Rename columns
+  # names(x$benchtop) <- c("bag", "pesc_id", "tube_g", "tube_sample_wet_g", "wet_g", "wet_extracted_g",
+  #                        "dilution_solution_ml", "tube_sample_dry_g", "dry_g_per_ml", "dried_g",
+  #                        "prct_dry_weight", "start_date", "analyst_initials", "notes")
+  # HERE IS THE RENAMING ALTERNATIVE:
+  # this also relies on the column names not changing
+  names(x$benchtop)[grep("bag", tolower(names(x$benchtop)))] <- "bag"
+  names(x$benchtop)[grep("sample id", tolower(names(x$benchtop)))] <- "pesc_id"
+  names(x$benchtop)[grep("weight of centrifuge tube", tolower(names(x$benchtop)))] <- "tube_g"
+  names(x$benchtop)[grep("weight of tube plus sample \\(g\\)", tolower(names(x$benchtop)))] <- "tube_sample_wet_g"
+  names(x$benchtop)[grep("excess seawater", tolower(names(x$benchtop)))] <- "wet_g"
+  names(x$benchtop)[grep("wet weight to be extracted", tolower(names(x$benchtop)))] <- "wet_extracted_g"
+  names(x$benchtop)[grep("volume of dilution solution", tolower(names(x$benchtop)))] <- "dilution_solution_ml"
+  names(x$benchtop)[grep("weight of tube plus sample after drying \\(g\\)", tolower(names(x$benchtop)))] <- "tube_sample_dry_g"
+  names(x$benchtop)[grep("dry g per ml", tolower(names(x$benchtop)))] <- "dry_g_per_ml"
+  names(x$benchtop)[grep("weight of dried sample", tolower(names(x$benchtop)))] <- "dried_g"
+  names(x$benchtop)[grep("%", tolower(names(x$benchtop)))] <- "prct_dry_weight"
+  names(x$benchtop)[grep("start date", tolower(names(x$benchtop)))] <- "start_date"
+  names(x$benchtop)[grep("analyst initials", tolower(names(x$benchtop)))] <- "analyst_initials"
+  names(x$benchtop)[grep("notes", tolower(names(x$benchtop)))] <- "notes"
   # find first row without sample ID and cut out anything past that
   end_benchtop <- as.numeric(row.names(x$benchtop[is.na(x$benchtop$pesc_id),])[1]) - 1
   if (!is.na(end_benchtop)) x$benchtop <- x$benchtop[1:end_benchtop,]
@@ -174,7 +195,7 @@ read_lims <- function(path) {
   x$batch <- dplyr::arrange(x$batch, pesc_id)
   # bench
   #x$benchtop <- dplyr::select(x$benchtop, -bag)
-  x$benchtop <- dplyr::select(x$benchtop, pesc_id, bag, tube_g:notes) # removed 'tube_no'
+  x$benchtop <- dplyr::select(x$benchtop, pesc_id, bag, dplyr::everything()) # removed 'tube_no'
   # ng dat
   ng_dat <- dplyr::select(ng_dat, pesc_id, replicate, lims_sample:lims_ref)
 
