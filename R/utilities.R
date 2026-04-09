@@ -12,6 +12,9 @@
 clean_locs <- function(x) {
   stopifnot("x must be a character vector." = inherits(x, "character"))
 
+  # Remove "stn" "station" etc from the vector
+  x <- gsub("stn|station", "", tolower(x))
+
   x <- stringr::str_trim(x)
   x <- stringr::str_squish(x)
   x <- stringr::str_to_title(x)
@@ -89,6 +92,9 @@ clean_samples <- function(x) {
 
   # Remove year
   x$sample <- gsub("2020|2021|2022", "", x$sample)
+
+  # Remove stray "STN" or "station"
+  x$sample <- gsub("STN|STATION", "", x$sample)
 
   # Replace '0P' typo with 'OP'
   x$sample <- gsub("0P", "OP", x$sample)

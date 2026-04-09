@@ -77,9 +77,13 @@ read_lims <- function(path) {
   if (is.null(x$batch$bag)) {
     x$batch$bag <- NA
   } else {
-    as.numeric(x$batch$bag)
+    x$batch$bag <- as.numeric(x$batch$bag)
   }
   # Clean batch sample names
+  # EDIT 2026-04: TIL about R $ partial column matching??
+  # So x$batch$sample was picking up and cleaning the x$batch$sample_stn column,
+  # resulting in bugs down the line.
+  # Set options(warnPartialMatchDollar = TRUE) to flag this from now on.
   x$batch$sample <- clean_samples(x$batch$sample)[["sample"]]
   # Add LIMS ref column so we can easily reference the original file if needed
   x$batch$lims_ref <- lims_ref
@@ -108,6 +112,15 @@ read_lims <- function(path) {
   n_dry <- nrow(x$dry)
   n_whole <- nrow(x$whole)
   if (n_dry != n_whole) warning("The number of records between the 'ng per g dry' and 'ng whole sample' tabs do not match.")
+  # Clean sample names prior to merging
+  # 'dry' colnames
+  x$dry$Sample <- stringr::str_squish(x$dry$Sample)
+  x$dry$lims_sample <- stringr::str_squish(x$dry$lims_sample)
+  x$dry$assay <- stringr::str_squish(x$dry$assay)
+  # 'whole' colnames
+  x$whole$Sample <- stringr::str_squish(x$whole$Sample)
+  x$whole$lims_sample <- stringr::str_squish(x$whole$lims_sample)
+  x$whole$assay <- stringr::str_squish(x$whole$assay)
   # Now merge
   ng_dat <- merge(x$dry, x$whole, by = c("Sample", "lims_sample", "assay"), all = TRUE)
   names(ng_dat)[1] <- "pesc_id"
@@ -133,6 +146,10 @@ read_lims <- function(path) {
   # Throw warning if any PESC IDs are duplicated
   if (any(plyr::count(x$batch[["pesc_id"]][!is.na(x$batch$pesc_id)])[["freq"]] > 1)) {
     warning("Duplicated PESC IDs: ", paste(plyr::count(x$batch$pesc_id)[plyr::count(x$batch$pesc_id)[2] > 1,"x"], collapse = ", "))
+  }
+  # Throw warning if merge went wonky
+  if (nrow(x$batch) != nrow(ng_samples)) {
+    warning("Merging sample info from the 'batch' tab to the sample info in the data tabs resulted in extra records.")
   }
 
   # Update batch sites
